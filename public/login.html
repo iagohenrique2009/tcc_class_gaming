@@ -1,48 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class Gaming</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Class Gaming</title>
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-  <section class="login-container">
-    <div class="main-content">
-      <nav class="navigation">
-        <a href="#" class="nav-item">Inicio</a>
-        <a href="#" class="nav-item">Niveis</a>
-        <a href="#" class="nav-item">Jogos</a>
-        <a href="#" class="nav-item">Contato</a>
-      </nav>
-      <div class="content-wrapper">
-        <div class="login-box">
-          <img src="public\images\comp-fundo.png" alt="" class="background-image" />
-          <div class="login-content">
-            <h1 class="title">Class Gaming</h1>
-            <form class="login-form">
-              <div class="form-group">
-                <label for="login-input" class="form-label">Login:</label>
-                <input type="text" id="login-input" class="form-input" aria-label="Login" />
-              </div>
-              <div class="form-group">
-                <label for="password-input" class="form-label">Password:</label>
-                <input type="password" id="password-input" class="form-input" aria-label="Password" />
-              </div>
-              <button type="submit" class="submit-button">
-                <span class="button-text">INICIAR</span>
-              </button>
-            </form>
-            <p class="login-info">
-              Para ingressar você deve logar/cadastar com seu e-mail de usuário FATEC
-            </p>
-          </div>
+    <header>
+        <div class="logo">Class Gaming</div>
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Níveis</a></li>
+                <li><a href="#">Jogos</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h1>Class Gaming</h1>
+            <div class="login-box">
+                <form action="#" method="post">
+                    <label for="login">Login:</label>
+                    <input type="text" id="login" name="login" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">INICIAR</button>
+                </form>
+                <p>Para ingressar você deve logar/cadastrar com seu e-mail de usuário FATEC.</p>
+            </div>
         </div>
-        <footer>
-          <p class="footer-text">© 2023 Class Gaming - All Rights Reserved</p>
-        </footer>
-      </div>
-    </div>
-  </section>
+    </main>
+
+    <footer>
+        <p>© 2023 Class Gaming - All Rights Reserved</p>
+    </footer>
 </body>
 </html>
