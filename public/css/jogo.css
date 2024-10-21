@@ -1,15 +1,17 @@
+/* Estilos Globais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body {
     background-color: #1c1c1c;
     color: #fff;
+    font-family: Arial, sans-serif;
 }
 
+/* Estilos do Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -30,60 +32,126 @@ nav ul {
     gap: 20px;
 }
 
+nav li {
+    list-style: none;
+}
+
 nav a {
     text-decoration: none;
     color: #fff;
+    font-size: 18px;
+    transition: color 0.3s;
 }
 
-main {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-h1 {
-    font-size: 36px;
+nav a:hover {
     color: #e91e63;
-    margin-bottom: 40px;
 }
 
-.drag-and-drop {
+/* Estilos do Main */
+main {
+    padding: 40px;
+    text-align: center;
+    margin: 80px auto;
+    max-width: 1000px;
+}
+
+main h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #e91e63;
+}
+
+/* Contêiner do jogo */
+.game-container {
+    width: 1000px;
+    min-height: 700px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 20px;
+    border: 2px solid #e91e63;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-#draggable {
-    width: 150px;
-    height: 150px;
+/* Contêiner das colunas */
+.columns-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 100px; /* Aumenta o espaçamento entre as colunas */
+}
+
+/* Coluna de imagens */
+.image-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Coluna de dropzones */
+.dropzone-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Aumenta o espaçamento vertical entre as dropzones */
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo das imagens arrastáveis */
+.draggable {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     cursor: grab;
     border: 2px solid #e91e63;
     border-radius: 10px;
+    position: relative;
 }
 
+/* Estilo das dropzones */
 .dropzone {
-    width: 200px;
-    height: 200px;
+    width: 120px;
+    height: 120px;
     border: 2px dashed #e91e63;
     border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s, border-style 0.3s;
+}
+
+/* Estilo para o texto da dropzone */
+.dropzone-text {
     color: #e91e63;
-    font-size: 18px;
-}
-
-.dropzone.hovered {
-    border-style: solid;
-    background-color: #444;
-}
-
-footer {
     text-align: center;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilo ao arrastar sobre a dropzone */
+.dropzone.hovered {
+    background-color: #444;
+    border-style: solid;
+}
+
+/* Estilos para o Footer */
+footer {
     padding: 20px;
     background-color: #000;
+    text-align: center;
     color: #fff;
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
 }
