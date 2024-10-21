@@ -82,7 +82,7 @@ main h1 {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    gap: 100px; /* Aumenta o espaçamento entre as colunas */
+    gap: 100px; 
 }
 
 /* Coluna de imagens */
@@ -99,7 +99,7 @@ main h1 {
 .dropzone-column {
     display: flex;
     flex-direction: column;
-    gap: 30px; /* Aumenta o espaçamento vertical entre as dropzones */
+    gap: 30px; 
     width: 40%;
     justify-content: center;
     align-items: center;
@@ -145,7 +145,6 @@ main h1 {
     border-style: solid;
 }
 
-/* Estilos para o Footer */
 footer {
     padding: 20px;
     background-color: #000;
