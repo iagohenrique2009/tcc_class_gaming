@@ -12,40 +12,7 @@ body {
 }
 
 /* Estilos do Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #000;
-}
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav li {
-    list-style: none;
-}
-
-nav a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #e91e63;
-}
 
 /* Estilos do Main */
 main {
@@ -143,14 +110,4 @@ main h1 {
 .dropzone.hovered {
     background-color: #444;
     border-style: solid;
-}
-
-footer {
-    padding: 20px;
-    background-color: #000;
-    text-align: center;
-    color: #fff;
-    position: relative;
-    bottom: 0;
-    width: 100%;
 }
