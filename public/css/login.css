@@ -6,6 +6,7 @@
 }
 
 body {
+    background-image: url('../imagens/fundo.png') ;
     background-color: #1c1c1c;
     color: #fff;
 }
@@ -19,7 +20,7 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #fff;
 }
@@ -37,13 +38,13 @@ nav a {
 
 main {
     background-image: url('../imagens/telaInicial.png'); 
-    background-size: cover; 
+    background-size:contain; 
     background-position: center; 
     background-repeat: no-repeat; 
     display: flex;
+    height: 840px;
     justify-content: center;
     align-items: center;
-    height: 80vh;
     text-align: center;
 }
 
@@ -95,6 +96,12 @@ main {
 .login-box p {
     margin-top: 20px;
     font-size: 14px;
+}
+
+h1{
+    padding: 0px 0px 70px 0px;
+    font-size: 200%;
+    box-shadow: #000;
 }
 
 footer {

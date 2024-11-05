@@ -7,10 +7,10 @@ function loadHeader() {
             <div class="logo">Class Gaming</div>
             <nav>
                 <ul>
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Níveis</a></li>
-                    <li><a href="#">Jogos</a></li>
-                    <li><a href="#">Contato</a></li>
+                    <li><a href="login.html">Início</a></li>
+                    <li><a href="inicio.html">Níveis</a></li>
+                    <li><a href="jogo.html">Jogos</a></li>
+                    <li><a href="contato.html">Contato</a></li>
                 </ul>
             </nav>
         </header>

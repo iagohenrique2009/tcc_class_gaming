@@ -1,12 +1,8 @@
-
-footer {
-    padding: 20px;
-    background-color: #000;
-    text-align: center;
-    color: #fff;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
 }
 
 header {
@@ -17,8 +13,18 @@ header {
     background-color: #000;
 }
 
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 .logo {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #fff;
 }
@@ -29,26 +35,13 @@ nav ul {
     gap: 20px;
 }
 
-nav li {
-    list-style: none;
-}
-
 nav a {
     text-decoration: none;
     color: #fff;
-    font-size: 18px;
-    transition: color 0.3s;
 }
 
 nav a:hover {
     color: #e91e63;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body {
@@ -63,10 +56,3 @@ body {
     flex-direction: column;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #000;
-}
