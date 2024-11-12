@@ -13,10 +13,11 @@
         
         <!-- Layout de navegação horizontal e formulários -->
         <div class="content-layout">
-            <!-- Navegação entre Quiz e Jogo de Combinação -->
+            <!-- Navegação entre Quiz, Jogo de Combinação e Palavras ao Vento -->
             <div class="tab-navigation-vertical">
                 <button class="tab-button" onclick="showTab('quiz')">Adicionar Quiz</button>
                 <button class="tab-button" onclick="showTab('combination')">Adicionar Jogo de Combinação</button>
+                <button class="tab-button" onclick="showTab('windwords')">Adicionar Palavras ao Vento</button>
             </div>
 
             <!-- Formulário para adicionar Quiz -->
@@ -69,6 +70,7 @@
 
                     <label for="comboImage">Imagem:</label>
                     <input type="file" id="comboImage" name="comboImage" accept="image/*" required>
+                    <img id="previewImage" src="" alt="Pré-visualização da imagem" style="display: none; margin-top: 10px; width: 100%; max-width: 300px; border-radius: 8px;">
 
                     <label for="word">Palavra Correspondente:</label>
                     <input type="text" id="word" name="word" required>
@@ -82,6 +84,30 @@
                     </div>
 
                     <button type="button" id="addCombinationButton">Adicionar Combinação</button>
+                </form>
+            </div>
+
+            <!-- Formulário para adicionar Palavras ao Vento -->
+            <div id="windwords-form" class="tab-content">
+                <form id="windwordsForm">
+                    <h2>Adicionar Palavras ao Vento</h2>
+                    <label for="windwordsTitle">Título:</label>
+                    <input type="text" id="windwordsTitle" name="windwordsTitle" required>
+
+                    <label for="windwordsText">Texto:</label>
+                    <textarea id="windwordsText" name="windwordsText" required></textarea>
+
+                    <label for="correctWords">Palavras Corretas (separadas por vírgula):</label>
+                    <input type="text" id="correctWords" name="correctWords"  required>
+
+                    <label>Dificuldade:</label>
+                    <div class="difficulty">
+                        <label><input type="checkbox" class="windwords-difficulty" value="facil"> Fácil</label>
+                        <label><input type="checkbox" class="windwords-difficulty" value="medio"> Médio</label>
+                        <label><input type="checkbox" class="windwords-difficulty" value="dificil"> Difícil</label>
+                    </div>
+
+                    <button type="button" id="addWindwordsButton">Adicionar Palavras ao Vento</button>
                 </form>
             </div>
         </div>
