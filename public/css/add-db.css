@@ -123,3 +123,13 @@ button:hover {
 #comboImage {
     padding: 5px;
 }
+
+#previewImage {
+    display: none;
+    margin-top: 10px;
+    width: 200px; /* Largura fixa */
+    height: 200px; /* Altura fixa */
+    object-fit: contain; /* Ajusta a imagem para caber dentro do espaço, sem cortar */
+    border-radius: 8px;
+    background-color: #333; /* Cor de fundo para áreas vazias */
+}
