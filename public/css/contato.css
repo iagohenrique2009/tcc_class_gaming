@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background-image: url('../imagens/fundo.png') ;
+    background-color: #1c1c1c;
+    color: #fff;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+main {
+    background-image: url('../imagens/telaInicial.png'); 
+    background-size:contain; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    display: flex;
+    height: 840px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.feedback-form label {
+    display: grid;
+    grid-column: auto;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.feedback-form button {
+    background-color: #e12f31;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.feedback-form button:hover {
+    background-color: #e12f31;
+}
+
+#feedbackMessage {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1rem;
+    color: green;
+}
+
+h1{
+    padding: 0px 0px 30px 0px;
+    font-size: 200%;
+    box-shadow: #000;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

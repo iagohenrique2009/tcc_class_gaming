@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.container {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #e12f31;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.options {
+    margin-top: 10px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.option-item label {
+    width: 20px;
+    margin-right: 10px;
+    color: #e12f31;
+}
+
+.correct-label {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+button {
+    background-color: #e12f31;
+    color: #fff;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e12f31;
+}
+
+.add-option {
+    background-color: #4caf50;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* Layout da navegação horizontal para as abas */
+.content-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tab-navigation-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.tab-button:hover,
+.tab-button.active {
+    background-color: #555;
+}
+
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.difficulty {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#comboImage {
+    padding: 5px;
+}

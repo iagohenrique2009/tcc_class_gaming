@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Gaming - Complete</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/jogo.css">
+</head>
+<body>
+    <main>
+        <div class="quiz-container" id="quizContainer">
+            <div class="title">Escolha o Tema </div>
+            <div id="themeSelection" class="theme-selection">
+                <!-- Lista de temas será carregada aqui -->
+            </div>
+            <div id="quizContent" class="quiz-content" style="display: none;">
+                <div class="title">Palavras ao Vento</div>
+                <div id="question" class="question"></div>
+
+                <!-- Opções de resposta -->
+                
+
+                <!-- Botões de navegação -->
+                <div class="controls">
+                    <button id="previousButton" class="previous">Anterior</button>
+                    <button id="nextButton" class="next">Próximo</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="result" class="result"></div>
+    </main>
+
+    <script src="src/js/header-footer.js"></script>
+    <script src="src/js/quiz.js"></script>
+</body>
+</html>

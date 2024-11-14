@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Conteúdo - Class Gaming</title>
+    <link rel="stylesheet" href="css/add-db.css">
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Conteúdo</h1>
+        
+        <!-- Layout de navegação horizontal e formulários -->
+        <div class="content-layout">
+            <!-- Navegação entre Quiz e Jogo de Combinação -->
+            <div class="tab-navigation-vertical">
+                <button class="tab-button" onclick="showTab('quiz')">Adicionar Quiz</button>
+                <button class="tab-button" onclick="showTab('combination')">Adicionar Jogo de Combinação</button>
+            </div>
+
+            <!-- Formulário para adicionar Quiz -->
+            <div id="quiz-form" class="tab-content active">
+                <form id="quizForm">
+                    <h2>Adicionar Novo Quiz</h2>
+                    <label for="title">Título do Quiz:</label>
+                    <input type="text" id="title" name="title" required>
+
+                    <label for="description">Descrição do Quiz:</label>
+                    <textarea id="description" name="description" required></textarea>
+
+                    <!-- Centralizar Nível de Dificuldade -->
+                    <label>Nível:</label>
+                    <div class="difficulty" style="text-align: center;">
+                        <label><input type="checkbox" class="difficulty-level" value="1"> 1</label>
+                        <label><input type="checkbox" class="difficulty-level" value="2"> 2</label>
+                        <label><input type="checkbox" class="difficulty-level" value="3"> 3</label>
+                        <label><input type="checkbox" class="difficulty-level" value="4"> 4</label>
+                        <label><input type="checkbox" class="difficulty-level" value="5"> 5</label>
+                        <label><input type="checkbox" class="difficulty-level" value="6"> 6</label>
+                    </div>
+
+                    <!-- Seleção de Quiz Existente para Adicionar Pergunta -->
+                    <label for="existingQuiz">Selecionar Quiz Existente:</label>
+                    <select id="existingQuiz">
+                        <option value="">Escolha um Quiz</option>
+                        <!-- Aqui serão inseridos os quizzes existentes via JavaScript -->
+                    </select>
+
+                    <!-- Pergunta e Alternativas Fixas -->
+                    <div id="questionsContainer">
+                        <h2>Pergunta</h2>
+                    </div>
+                    <!-- Botão para adicionar nova pergunta -->
+                    <button type="button" id="addNewQuestionButton">Adicionar Nova Pergunta</button>
+                    <button type="button" id="saveQuizButton">Salvar Questionário</button>
+                    <button type="button" id="addQuizButton">Adicionar Quiz</button>
+                </form>
+            </div>
+
+            <!-- Formulário para adicionar Jogo de Combinação -->
+            <div id="combination-form" class="tab-content">
+                <form id="combinationForm">
+                    <h2>Adicionar Nova Combinação</h2>
+                    <label for="comboName">Nome da Combinação:</label>
+                    <input type="text" id="comboName" name="comboName" required>
+
+                    <label for="comboImage">Imagem:</label>
+                    <input type="file" id="comboImage" name="comboImage" accept="image/*" required>
+
+                    <label for="word">Palavra Correspondente:</label>
+                    <input type="text" id="word" name="word" required>
+
+                    <!-- Centralizar Dificuldade da Combinação -->
+                    <label>Dificuldade:</label>
+                    <div class="difficulty" style="text-align: center;">
+                        <label><input type="checkbox" class="combo-difficulty" value="1"> 1</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="2"> 2</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="3"> 3</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="4"> 4</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="5"> 5</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="6"> 6</label>
+                    </div>
+
+                    <button type="button" id="addCombinationButton">Adicionar Combinação</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/add-db.js"></script>
+    <script src="src/js/header-footer.js"></script>
+</body>
+</html>
