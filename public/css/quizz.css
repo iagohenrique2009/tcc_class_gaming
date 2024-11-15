@@ -3,11 +3,23 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Orbitron', sans-serif;
+<<<<<<< HEAD
 }
 
 body {
     background-color: #1c1c1c;
     color: #fff;
+=======
+    font-weight: 200;
+}
+
+body {
+  background-image: url('../imagens/fundo.png') ;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #1c1c1c;
+  color: #fff;
+>>>>>>> feature/telas_jogos
 }
 
 header {
@@ -35,6 +47,7 @@ nav a {
     color: #fff;
 }
 
+<<<<<<< HEAD
 main {
     padding: 40px 20px;
     text-align: center;
@@ -43,6 +56,11 @@ main {
 h1 {
     font-size: 36px;
     color: #e91e63;
+=======
+h1 {
+    font-size: 36px;
+    color: #e12f31;
+>>>>>>> feature/telas_jogos
     margin-bottom: 40px;
 }
 
@@ -57,19 +75,31 @@ h1 {
     width: 150px;
     height: 150px;
     cursor: grab;
+<<<<<<< HEAD
     border: 2px solid #e91e63;
+=======
+    border: 2px solid #e12f31;
+>>>>>>> feature/telas_jogos
     border-radius: 10px;
 }
 
 .dropzone {
     width: 200px;
     height: 200px;
+<<<<<<< HEAD
     border: 2px dashed #e91e63;
+=======
+    border: 2px dashed #e12f31;
+>>>>>>> feature/telas_jogos
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
     color: #e91e63;
+=======
+    color: #e12f31;
+>>>>>>> feature/telas_jogos
     font-size: 18px;
 }
 
@@ -88,6 +118,7 @@ footer {
     width: 100%;
 }
 
+<<<<<<< HEAD
 html {
     box-sizing: border-box;
   }
@@ -106,15 +137,30 @@ html {
   }
   .quiz-container {
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+=======
+
+
+  .quiz-container {
+    box-shadow: 1px 1px 1px 1px rgba(189, 163, 163, 0.2);
+>>>>>>> feature/telas_jogos
     text-shadow: 1px 1px white;
     padding: 3rem;
     text-shadow: 0 1px #00000010;
     width: 60%;
     margin: 5rem auto;
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     background: linear-gradient(360deg, transparent, #ffffff);
     min-height: 100vh;
+=======
+    display:flex;
+    flex-direction: column;
+    background: linear-gradient(360deg, transparent, #e12f31);
+    min-height: 100vh;
+    text-align: center;
+    align-items: center;
+>>>>>>> feature/telas_jogos
   }
   .title {
     margin-top: 0;
@@ -136,6 +182,10 @@ html {
     width: 80%;
     border-radius: 5px;
     transition: all 0.3s;
+<<<<<<< HEAD
+=======
+    text-align: left;
+>>>>>>> feature/telas_jogos
   }
   .option:hover {
     background: rgba(255, 255, 255, 0.4);
@@ -153,16 +203,27 @@ html {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     font-weight: 300;
+<<<<<<< HEAD
     color: white;
+=======
+    color: #e12f31;
+>>>>>>> feature/telas_jogos
     outline: none;
     transform: scale(0.98);
     transition: all 0.2s;
   }
   button.previous {
+<<<<<<< HEAD
     background: #c84630;
   }
   button.next {
     background: #3c91e6;
+=======
+    background: #000;
+  }
+  button.next {
+    background: #000;
+>>>>>>> feature/telas_jogos
   }
   button.restart {
     background: #0cf574;

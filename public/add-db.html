@@ -29,8 +29,14 @@
                     <label for="description">Descrição do Quiz:</label>
                     <textarea id="description" name="description" required></textarea>
 
+<<<<<<< HEAD
                     <label>Nível:</label>
                     <div class="difficulty">
+=======
+                    <!-- Centralizar Nível de Dificuldade -->
+                    <label>Nível:</label>
+                    <div class="difficulty" style="text-align: center;">
+>>>>>>> feature/telas_jogos
                         <label><input type="checkbox" class="difficulty-level" value="1"> 1</label>
                         <label><input type="checkbox" class="difficulty-level" value="2"> 2</label>
                         <label><input type="checkbox" class="difficulty-level" value="3"> 3</label>
@@ -39,6 +45,7 @@
                         <label><input type="checkbox" class="difficulty-level" value="6"> 6</label>
                     </div>
 
+<<<<<<< HEAD
                     <div id="questionsContainer">
                         <h2>Pergunta</h2>
                         <div class="question-block">
@@ -59,6 +66,22 @@
                         </div>
                     </div>
 
+=======
+                    <!-- Seleção de Quiz Existente para Adicionar Pergunta -->
+                    <label for="existingQuiz">Selecionar Quiz Existente:</label>
+                    <select id="existingQuiz">
+                        <option value="">Escolha um Quiz</option>
+                        <!-- Aqui serão inseridos os quizzes existentes via JavaScript -->
+                    </select>
+
+                    <!-- Pergunta e Alternativas Fixas -->
+                    <div id="questionsContainer">
+                        <h2>Pergunta</h2>
+                    </div>
+                    <!-- Botão para adicionar nova pergunta -->
+                    <button type="button" id="addNewQuestionButton">Adicionar Nova Pergunta</button>
+                    <button type="button" id="saveQuizButton">Salvar Questionário</button>
+>>>>>>> feature/telas_jogos
                     <button type="button" id="addQuizButton">Adicionar Quiz</button>
                 </form>
             </div>
@@ -76,12 +99,24 @@
                     <label for="word">Palavra Correspondente:</label>
                     <input type="text" id="word" name="word" required>
 
+<<<<<<< HEAD
                     <!-- Dificuldade da combinação -->
                     <label>Dificuldade:</label>
                     <div class="difficulty">
                         <label><input type="checkbox" class="combo-difficulty" value="facil"> Fácil</label>
                         <label><input type="checkbox" class="combo-difficulty" value="medio"> Médio</label>
                         <label><input type="checkbox" class="combo-difficulty" value="dificil"> Difícil</label>
+=======
+                    <!-- Centralizar Dificuldade da Combinação -->
+                    <label>Dificuldade:</label>
+                    <div class="difficulty" style="text-align: center;">
+                        <label><input type="checkbox" class="combo-difficulty" value="1"> 1</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="2"> 2</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="3"> 3</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="4"> 4</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="5"> 5</label>
+                        <label><input type="checkbox" class="combo-difficulty" value="6"> 6</label>
+>>>>>>> feature/telas_jogos
                     </div>
 
                     <button type="button" id="addCombinationButton">Adicionar Combinação</button>

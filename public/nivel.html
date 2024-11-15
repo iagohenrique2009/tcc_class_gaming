@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/nivel.css">
+</head>
+<body>
+    
+    <main>
+        <h1>Escolha seu nível</h1>
+        <div class="levels">
+            <div class="level-card">
+                <h2>Class 1</h2>
+                <p>Comece sua jornada no mundo do inglês com vocabulário básico e frases simples.</p>
+                <button class="play-button" data-level="1">Play Games</button>
+            </div>
+            <div class="level-card">
+                <h2>Class 2</h2>
+                <p>Expanda seu conhecimento com estruturas mais complexas e habilidades de conversação cotidiana.</p>
+                <button class="play-button" data-level="2">Play Games</button>
+            </div>
+            <div class="level-card">
+                <h2>Class 3</h2>
+                <p>Desafie-se com uma gramática intermediária e um vocabulário mais rico.</p>
+                <button class="play-button" data-level="3">Play Games</button>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="levels">
+            <div class="level-card">
+                <h2>Class 4</h2>
+                <p>Aprimore sua fluência e comece a pensar em inglês com confiança.</p>
+                <button class="play-button" data-level="4">Play Games</button>
+            </div>
+            <div class="level-card">
+                <h2>Class 5</h2>
+                <p>Domine as sutilezas do inglês e participe de conversas complexas.</p>
+                <button class="play-button" data-level="5">Play Games</button>
+            </div>
+            <div class="level-card">
+                <h2>Class 6</h2>
+                <p>Aperfeiçoe suas habilidades e torne-se um especialista em língua e literatura inglesa.</p>
+                <button class="play-button" data-level="6">Play Games</button>
+            </div>
+        </div>
+
+        
+    </main>
+
+    <script>
+    // Garante que o código será executado após o carregamento completo do DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        // Seleciona todos os botões com a classe 'play-button'
+        const buttons = document.querySelectorAll('.play-button');
+
+        // Adiciona um event listener para cada botão
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Extrai o nível do atributo 'data-level' do botão clicado
+                const level = button.getAttribute('data-level');
+
+                // Verifica se o nível é válido antes de redirecionar
+                if (level) {
+                    // Redireciona para a página de jogos com o nível especificado
+                    window.location.href = `http://127.0.0.1:5500/public/jogo.html`;
+                } else {
+                    console.error('Nível não encontrado!');
+                }
+            });
+        });
+    });
+    </script>
+    <script src="src/js/header-footer.js"></script>
+
+
+</body>
+</html>
