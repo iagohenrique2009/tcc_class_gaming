@@ -9,10 +9,16 @@
 body {
     background-color: #1c1c1c;
     color: #fff;
-    font-family: Arial, sans-serif;
 }
 
-/* Estilos do Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+}
 
 
 /* Estilos do Main */
@@ -26,7 +32,7 @@ main {
 main h1 {
     font-size: 36px;
     margin-bottom: 40px;
-    color: #e91e63;
+    color: #e12f31;
 }
 
 /* Contêiner do jogo */
@@ -37,7 +43,7 @@ main h1 {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border: 2px solid #e91e63;
+    border: 2px solid #e12f31;
     background-color: #2c2c2c;
     border-radius: 10px;
     padding: 20px;
@@ -75,20 +81,20 @@ main h1 {
 
 /* Estilo das imagens arrastáveis */
 .draggable {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     object-fit: contain;
     cursor: grab;
-    border: 2px solid #e91e63;
+    border: 2px solid #e12f31;
     border-radius: 10px;
     position: relative;
 }
 
 /* Estilo das dropzones */
 .dropzone {
-    width: 120px;
-    height: 120px;
-    border: 2px dashed #e91e63;
+    width: 140px;
+    height: 140px;
+    border: 2px dashed #e12f31;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
@@ -97,7 +103,7 @@ main h1 {
 
 /* Estilo para o texto da dropzone */
 .dropzone-text {
-    color: #e91e63;
+    color: #e12f31;
     text-align: center;
     pointer-events: none;
     position: absolute;
@@ -112,3 +118,37 @@ main h1 {
     background-color: #444;
     border-style: solid;
 }
+
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.columns-container {
+    display: flex;
+    gap: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
