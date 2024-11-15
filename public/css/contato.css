@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .feedback-form {
     max-width: 500px;
     margin: auto;
@@ -8,68 +7,11 @@
     background-color: #f9f9f9;
 }
 
-=======
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Orbitron', sans-serif;
-}
-
-body {
-    background-image: url('../imagens/fundo.png') ;
-    background-color: #1c1c1c;
-    color: #fff;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #000;
-}
-
-.logo {
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #fff;
-}
-
-main {
-    background-image: url('../imagens/telaInicial.png'); 
-    background-size:contain; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    display: flex;
-    height: 840px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-
->>>>>>> feature/telas_jogos
 .feedback-form label {
     display: grid;
     grid-column: auto;
     margin-top: 10px;
-<<<<<<< HEAD
     color: #555;
-=======
-    color: #fff;
->>>>>>> feature/telas_jogos
 }
 
 .feedback-form input,
@@ -83,7 +25,6 @@ main {
 }
 
 .feedback-form button {
-<<<<<<< HEAD
     margin-top: 10px;
     width: 100%;
     padding: 10px;
@@ -96,21 +37,6 @@ main {
 
 .feedback-form button:hover {
     background-color: #45a049;
-=======
-    background-color: #e12f31;
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
-
-.feedback-form button:hover {
-    background-color: #e12f31;
->>>>>>> feature/telas_jogos
 }
 
 #feedbackMessage {
@@ -118,23 +44,4 @@ main {
     margin-top: 15px;
     font-size: 1rem;
     color: green;
-<<<<<<< HEAD
-=======
-}
-
-h1{
-    padding: 0px 0px 30px 0px;
-    font-size: 200%;
-    box-shadow: #000;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #000;
-    color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
->>>>>>> feature/telas_jogos
 }

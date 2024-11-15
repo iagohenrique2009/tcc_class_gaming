@@ -1,20 +1,8 @@
-<<<<<<< HEAD
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
-    color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-=======
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Orbitron', sans-serif;
->>>>>>> feature/telas_jogos
 }
 
 .container {
@@ -28,11 +16,7 @@ body {
 
 h1, h2 {
     text-align: center;
-<<<<<<< HEAD
-    color: #e91e63;
-=======
     color: #e12f31;
->>>>>>> feature/telas_jogos
 }
 
 label {
@@ -62,11 +46,7 @@ input, textarea, button {
 .option-item label {
     width: 20px;
     margin-right: 10px;
-<<<<<<< HEAD
-    color: #e91e63;
-=======
     color: #e12f31;
->>>>>>> feature/telas_jogos
 }
 
 .correct-label {
@@ -76,22 +56,14 @@ input, textarea, button {
 }
 
 button {
-<<<<<<< HEAD
-    background-color: #e91e63;
-=======
     background-color: #e12f31;
->>>>>>> feature/telas_jogos
     color: #fff;
     margin-top: 20px;
     cursor: pointer;
 }
 
 button:hover {
-<<<<<<< HEAD
-    background-color: #d81b60;
-=======
     background-color: #e12f31;
->>>>>>> feature/telas_jogos
 }
 
 .add-option {
