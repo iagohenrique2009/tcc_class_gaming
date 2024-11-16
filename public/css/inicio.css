@@ -6,6 +6,7 @@
 }
 
 body {
+    background-image: url('../imagens/fundo.png') ;
     background-color: #1c1c1c;
     color: #fff;
 }
@@ -19,7 +20,7 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #fff;
 }
@@ -42,7 +43,7 @@ main {
 
 h1 {
     font-size: 36px;
-    color: #e91e63;
+    color: #e12f31;
     margin-bottom: 40px;
 }
 
@@ -55,12 +56,12 @@ h1 {
 
 .level-card, .game-card {
     background-color: #000;
-    border: 1px solid #e91e63;
+    border: 1px solid #e12f31;
     border-radius: 10px;
     padding: 20px;
     width: 300px;
     text-align: center;
-    box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+    box-shadow: 0 0 15px rgba(164, 22, 26, 1);
 }
 
 .level-card h2, .game-card h2 {
@@ -74,7 +75,7 @@ h1 {
 }
 
 .level-card button, .game-card button {
-    background-color: #e91e63;
+    background-color: #e12f31;
     border: none;
     color: #fff;
     padding: 10px 20px;
@@ -85,7 +86,7 @@ h1 {
 }
 
 .level-card button:hover, .game-card button:hover {
-    background-color: #d81b60;
+    background-color: #e12f31;
 }
 
 footer {

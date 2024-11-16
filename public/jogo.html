@@ -8,34 +8,35 @@
     <link rel="stylesheet" href="css/jogo.css">
 </head>
 <body>
-    <header>
-        <div class="logo">Class Gaming</div>
-        <nav>
-            <ul>
-                <li><a href="login.html">Início</a></li>
-                <li><a href="inicio.html">Níveis</a></li>
-                <li><a href="jogo.html">Jogos</a></li>
-                <li><a href="#">Contato</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <main>
-        <h1>Combine as imagens com as Palavras</h1>
-        <div class="game-container">
-           
-            <div class="columns-container">
-                <div class="image-column">
-                </div>
-                <div class="dropzone-column">
-
-                </div>
+        <h1>Escolha seu jogo por nível</h1>
+        <div class="filter">
+            <span>Filtro ▼</span>
+        </div>
+        <div class="games">
+            <div class="game-card">
+                <h2>Combinação</h2>
+                <p>Vocabulário - Combine os objetos com sua palavra em inglês.</p>
+                <button onclick="window.location.href='http://127.0.0.1:5500/public/combinacao.html'">Play Now</button>
+            </div>
+            <div class="game-card">
+                <h2>Ditado Dinâmico</h2>
+                <p>Escute e escreva - Teste suas habilidades auditivas com desafios de áudio interativos.</p>
+                <button onclick="window.location.href='xyz.com'">Play Games</button>
+            </div>
+            <div class="game-card">
+                <h2>Quizz Time</h2>
+                <p>Teste seus conhecimentos de gramática.</p>
+                <button onclick="window.location.href='http://127.0.0.1:5500/public/quizz.html'">Play Games</button>
+            </div>
+            <div class="game-card">
+                <h2>Palavras ao Vento</h2>
+                <p>Organize as frases e grave as pronúncias.</p>
+                <button onclick="window.location.href='quizz.html'">Play Games</button>
             </div>
         </div>
     </main>
-
-
-    <script src="src/js/main.js"></script>
+    
     <script src="src/js/header-footer.js"></script>
 
 </body>
