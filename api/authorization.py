@@ -1,130 +1,159 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from pymongo import MongoClient
-from urllib.parse import quote_plus
-from bson.objectid import ObjectId
-import base64
+import mysql.connector
+from mysql.connector import Error
+import bcrypt
+from datetime import datetime
+import requests
+from bs4 import BeautifulSoup
+import re  # Importação para expressões regulares
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5500"}})
 
-# Configurar CORS para permitir requisições do Live Server
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}})
+# Configurações do banco de dados
+db_config = {
+    "host": "mysql-lcndev.alwaysdata.net",
+    "database": "lcndev_classgaming",
+    "user": "lcndev_api",
+    "password": "7kFTc8T6",
+}
 
-# Configuração da Conexão com o MongoDB
-username = quote_plus("api_rest")
-password = quote_plus("Zi20z1lu8NkZS9Qw")
-cluster_url = "cluster0.kqv60.mongodb.net"
-database_name = "class_gaming"
+# Rota para a página inicial
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-client = MongoClient(f"mongodb+srv://{username}:{password}@{cluster_url}/{database_name}?retryWrites=true&w=majority")
-db = client[database_name]
-quizzes_collection = db["quizzes"]
-combinations_collection = db["combinations"]
-windwords_collection = db["windwords"]  # Nova coleção para Palavras ao Vento
+# Rota para cadastro
+@app.route('/api/cadastrar', methods=['POST', 'OPTIONS'])
+def cadastrar():
+    if request.method == 'OPTIONS':
+        # Responde às requisições OPTIONS (preflight)
+        response = app.make_response('')
+        response.headers.add("Access-Control-Allow-Origin", "http://127.0.0.1:5500")
+        response.headers.add('Access-Control-Allow-Headers', "Content-Type")
+        response.headers.add('Access-Control-Allow-Methods', "POST, OPTIONS")
+        return response
 
-# Endpoint para adicionar um novo quiz
-@app.route('/add_quiz', methods=['POST'])
-def add_quiz():
+    dados = request.get_json()
+
+    nome = dados.get('nome')
+    email = dados.get('email')
+    senha = dados.get('senha')
+
+    # Validação simples
+    if not nome or not email or not senha:
+        return jsonify({'sucesso': False, 'mensagem': 'Todos os campos são obrigatórios.'}), 400
+
+    # Validação do email - verificar se contém '@fatec.sp.gov.br'
+    if '@fatec.sp.gov.br' not in email.lower():
+        return jsonify({'sucesso': False, 'mensagem': 'O email deve ser institucional (@fatec.sp.gov.br).'}), 400
+
+    # Validação da senha - verificar se tem mais de 8 caracteres e contém maiúscula, minúscula e números
+    if len(senha) < 8:
+        return jsonify({'sucesso': False, 'mensagem': 'A senha deve ter pelo menos 8 caracteres.'}), 400
+
+    if not re.search(r'[A-Z]', senha):
+        return jsonify({'sucesso': False, 'mensagem': 'A senha deve conter pelo menos uma letra maiúscula.'}), 400
+
+    if not re.search(r'[a-z]', senha):
+        return jsonify({'sucesso': False, 'mensagem': 'A senha deve conter pelo menos uma letra minúscula.'}), 400
+
+    if not re.search(r'\d', senha):
+        return jsonify({'sucesso': False, 'mensagem': 'A senha deve conter pelo menos um número.'}), 400
+
+    # Verifica se o email está na lista de docentes
+    email_existe = verificar_email_na_pagina(email)
+    if email_existe:
+        tipo = 2  # Professor
+    else:
+        tipo = 3  # Aluno
+
     try:
-        quiz_data = request.json
-        result = quizzes_collection.insert_one(quiz_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+        conexao = mysql.connector.connect(**db_config)
+        cursor = conexao.cursor()
 
-# Endpoint para adicionar um novo quiz de combinação
-@app.route('/add_combination', methods=['POST'])
-def add_combination():
+        # Verifica se o email já está cadastrado no banco de dados
+        cursor.execute("SELECT id_usuario FROM tb_usuarios WHERE email = %s", (email,))
+        if cursor.fetchone():
+            return jsonify({'sucesso': False, 'mensagem': 'Email já cadastrado.'}), 400
+
+        # Gera o hash da senha
+        senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+        sql = """
+            INSERT INTO tb_usuarios (nome, email, senha, senha_hash, tipo, data_hora_cadastro)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        data_hora_cadastro = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        valores = (nome, email, senha, senha_hash, tipo, data_hora_cadastro)
+        cursor.execute(sql, valores)
+        conexao.commit()
+
+        return jsonify({'sucesso': True, 'mensagem': 'Usuário cadastrado com sucesso.'}), 200
+
+    except Error as e:
+        print(f"Erro ao inserir usuário: {e}")
+        return jsonify({'sucesso': False, 'mensagem': 'Erro no servidor.'}), 500
+
+    finally:
+        if conexao.is_connected():
+            cursor.close()
+            conexao.close()
+
+def verificar_email_na_pagina(email_usuario):
+    base_url = 'http://www.fatecrp.edu.br/profissionais/'
+    emails_encontrados = []
+
     try:
-        combination_data = request.json
-        result = combinations_collection.insert_one(combination_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+        pagina_atual = 1
+        existe_proxima_pagina = True
 
-# Endpoint para adicionar Palavras ao Vento
-@app.route('/add_windwords', methods=['POST'])
-def add_windwords():
-    try:
-        windwords_data = request.json
-        result = windwords_collection.insert_one(windwords_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+        while existe_proxima_pagina:
+            # Constrói a URL da página atual
+            if pagina_atual == 1:
+                url = f"{base_url}?funcao=Docente"
+            else:
+                url = f"{base_url}page/{pagina_atual}/?funcao=Docente"
 
-# Endpoint para buscar todos os quizzes
-@app.route('/get_quizzes', methods=['GET'])
-def get_quizzes():
-    quizzes = list(quizzes_collection.find())
-    for quiz in quizzes:
-        quiz["_id"] = str(quiz["_id"])
-    return jsonify(quizzes), 200
+            print(f"Processando URL: {url}")  # Depuração
 
-# Endpoint para buscar todas as combinações
-@app.route('/get_combinations', methods=['GET'])
-def get_combinations():
-    combinations = list(combinations_collection.find())
-    for combination in combinations:
-        combination["_id"] = str(combination["_id"])
-    return jsonify(combinations), 200
+            response = requests.get(url)
+            response.raise_for_status()
 
-# Endpoint para buscar todas as Palavras ao Vento
-@app.route('/get_windwords', methods=['GET'])
-def get_windwords():
-    windwords = list(windwords_collection.find())
-    for item in windwords:
-        item["_id"] = str(item["_id"])
-    return jsonify(windwords), 200
+            soup = BeautifulSoup(response.text, 'html.parser')
 
-# Endpoint para atualizar um quiz
-@app.route('/update_quiz/<quiz_id>', methods=['PUT'])
-def update_quiz(quiz_id):
-    try:
-        updated_data = request.json
-        result = quizzes_collection.update_one({"_id": ObjectId(quiz_id)}, {"$set": updated_data})
-        if result.modified_count > 0:
-            return jsonify({"status": "success"}), 200
+            # Extrai os emails da página atual
+            for link in soup.find_all('a', href=True):
+                href = link['href']
+                if 'mailto:' in href:
+                    email_extraido = href.split('mailto:')[1]
+                    emails_encontrados.append(email_extraido.lower())
+
+            # Verifica se há uma próxima página
+            existe_proxima_pagina = False  # Assume que não há próxima página
+
+            # Procura pelos links de paginação
+            paginacao = soup.find('div', class_='wp-pagenavi')  # Ajuste conforme necessário
+            if paginacao:
+                links_paginacao = paginacao.find_all('a', href=True)
+                for link in links_paginacao:
+                    if link.text.strip() in ['Próxima', 'Próxima »', 'Next', '>']:
+                        existe_proxima_pagina = True
+                        break
+
+            pagina_atual += 1
+
+        # Verifica se o email do usuário está na lista de emails extraídos
+        if email_usuario.lower() in emails_encontrados:
+            return True
         else:
-            return jsonify({"status": "failure", "message": "Quiz not found or data unchanged"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+            return False
 
-# Endpoint para deletar um quiz
-@app.route('/delete_quiz/<quiz_id>', methods=['DELETE'])
-def delete_quiz(quiz_id):
-    try:
-        result = quizzes_collection.delete_one({"_id": ObjectId(quiz_id)})
-        if result.deleted_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Quiz not found"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+    except requests.RequestException as e:
+        print(f"Erro ao acessar a página: {e}")
+        return False
 
-# Endpoint para deletar uma combinação
-@app.route('/delete_combination/<combination_id>', methods=['DELETE'])
-def delete_combination(combination_id):
-    try:
-        result = combinations_collection.delete_one({"_id": ObjectId(combination_id)})
-        if result.deleted_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Combination not found"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Endpoint para deletar Palavras ao Vento
-@app.route('/delete_windwords/<windwords_id>', methods=['DELETE'])
-def delete_windwords(windwords_id):
-    try:
-        result = windwords_collection.delete_one({"_id": ObjectId(windwords_id)})
-        if result.deleted_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Windwords not found"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Executa a API
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+# Roda a aplicação
+if __name__ == '__main__':
+    app.run(debug=True)
