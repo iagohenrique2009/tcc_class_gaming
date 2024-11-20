@@ -1,0 +1,123 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Corpo */
+body {
+  background-color: #1c1c1c;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Cabeçalho */
+.header {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 10px;
+  border: 1px solid #e12f31;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.header nav a:hover {
+  background-color: #e12f31;
+}
+
+/* Conteúdo Principal */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.start-screen, .quiz-container, .result {
+  background-color: #000;
+  border: 2px solid #e12f31;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(225, 47, 49, 0.8);
+}
+
+h1 {
+  font-size: 28px;
+  color: #e12f31;
+  margin-bottom: 20px;
+}
+
+.options label {
+  display: block;
+  background-color: #1c1c1c;
+  border: 2px solid #e12f31;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.options label:hover {
+  background-color: #e12f31;
+  color: #fff;
+}
+
+button {
+  background-color: #e12f31;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #ff4045;
+}
+
+/* Rodapé */
+.footer {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}

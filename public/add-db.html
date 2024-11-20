@@ -30,11 +30,14 @@
                     <label for="description">Descrição do Quiz:</label>
                     <textarea id="description" name="description" required></textarea>
 
-                    <label>Dificuldade:</label>
+                    <label>Nível:</label>
                     <div class="difficulty">
-                        <label><input type="checkbox" class="difficulty-level" value="facil"> Fácil</label>
-                        <label><input type="checkbox" class="difficulty-level" value="medio"> Médio</label>
-                        <label><input type="checkbox" class="difficulty-level" value="dificil"> Difícil</label>
+                        <label><input type="checkbox" class="difficulty-level" value="1"> 1</label>
+                        <label><input type="checkbox" class="difficulty-level" value="2"> 2</label>
+                        <label><input type="checkbox" class="difficulty-level" value="3"> 3</label>
+                        <label><input type="checkbox" class="difficulty-level" value="4"> 4</label>
+                        <label><input type="checkbox" class="difficulty-level" value="5"> 5</label>
+                        <label><input type="checkbox" class="difficulty-level" value="6"> 6</label>
                     </div>
 
                     <div id="questionsContainer">
@@ -75,7 +78,6 @@
                     <label for="word">Palavra Correspondente:</label>
                     <input type="text" id="word" name="word" required>
 
-                    <!-- Dificuldade da combinação -->
                     <label>Dificuldade:</label>
                     <div class="difficulty">
                         <label><input type="checkbox" class="combo-difficulty" value="facil"> Fácil</label>
@@ -98,7 +100,7 @@
                     <textarea id="windwordsText" name="windwordsText" required></textarea>
 
                     <label for="correctWords">Palavras Corretas (separadas por vírgula):</label>
-                    <input type="text" id="correctWords" name="correctWords"  required>
+                    <input type="text" id="correctWords" name="correctWords" readonly>
 
                     <label>Dificuldade:</label>
                     <div class="difficulty">

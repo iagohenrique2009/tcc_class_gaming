@@ -1,3 +1,4 @@
+/* Seu CSS fornecido */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +7,6 @@
 }
 
 body {
-    background-image: url('../imagens/fundo.png') ;
     background-color: #1c1c1c;
     color: #fff;
 }
@@ -20,7 +20,7 @@ header {
 }
 
 .logo {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     color: #fff;
 }
@@ -38,13 +38,13 @@ nav a {
 
 main {
     background-image: url('../imagens/telaInicial.png'); 
-    background-size:contain; 
+    background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
     display: flex;
-    height: 840px;
     justify-content: center;
     align-items: center;
+    height: 80vh;
     text-align: center;
 }
 
@@ -71,7 +71,7 @@ main {
     margin: 10px 0 5px;
 }
 
-.login-box input {
+.login-box input, .login-box select {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -90,18 +90,12 @@ main {
 }
 
 .login-box button:hover {
-    background-color: #e12f31;
+    background-color: #c62828;
 }
 
 .login-box p {
     margin-top: 20px;
     font-size: 14px;
-}
-
-h1{
-    padding: 0px 0px 70px 0px;
-    font-size: 200%;
-    box-shadow: #000;
 }
 
 footer {

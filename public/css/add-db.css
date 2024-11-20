@@ -1,14 +1,55 @@
+/* Estilo global */
 body {
     font-family: Arial, sans-serif;
     background-color: #1a1a1a;
     color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    display: flex;
+    flex-direction: column; /* Organiza o layout verticalmente */
 }
 
+/* Header e Footer */
+header, footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    z-index: 1000; /* Mantém o header e footer acima de outros elementos */
+}
+
+header {
+    top: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+footer {
+    bottom: 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Links do header e footer */
+header a, footer a {
+    color: #e91e63;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+header a:hover, footer a:hover {
+    color: #f06292;
+}
+
+/* Espaçamento para compensar o header e footer */
+main {
+    margin-top: 80px; /* Altura do header */
+    margin-bottom: 80px; /* Altura do footer */
+    flex-grow: 1; /* Permite que o conteúdo principal ocupe o restante do espaço */
+    padding: 20px;
+}
+
+/* Container principal */
 .container {
     background-color: #333;
     padding: 20px;
@@ -16,13 +57,16 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 800px;
     width: 100%;
+    margin: 0 auto;
 }
 
+/* Cabeçalhos */
 h1, h2 {
     text-align: center;
     color: #e91e63;
 }
 
+/* Formulários e inputs */
 label {
     display: block;
     margin-top: 10px;
@@ -37,6 +81,7 @@ input, textarea, button {
     font-size: 16px;
 }
 
+/* Estilo das opções */
 .options {
     margin-top: 10px;
 }
@@ -59,11 +104,15 @@ input, textarea, button {
     margin-left: 8px;
 }
 
+/* Botões */
 button {
     background-color: #e91e63;
     color: #fff;
     margin-top: 20px;
     cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -76,11 +125,16 @@ button:hover {
     margin-top: 10px;
 }
 
-/* Layout da navegação horizontal para as abas */
+.add-option:hover {
+    background-color: #388e3c;
+}
+
+/* Layout da navegação vertical para as abas */
 .content-layout {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .tab-navigation-vertical {
@@ -88,6 +142,7 @@ button:hover {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .tab-button {
@@ -105,6 +160,7 @@ button:hover {
     background-color: #555;
 }
 
+/* Conteúdo das abas */
 .tab-content {
     display: none;
     width: 100%;
@@ -114,12 +170,14 @@ button:hover {
     display: block;
 }
 
+/* Dificuldades */
 .difficulty {
     display: flex;
     gap: 10px;
     margin-top: 10px;
 }
 
+/* Imagens */
 #comboImage {
     padding: 5px;
 }
@@ -132,4 +190,19 @@ button:hover {
     object-fit: contain; /* Ajusta a imagem para caber dentro do espaço, sem cortar */
     border-radius: 8px;
     background-color: #333; /* Cor de fundo para áreas vazias */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .tab-button {
+        padding: 8px 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
 }
