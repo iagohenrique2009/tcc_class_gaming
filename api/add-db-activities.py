@@ -1,130 +1,130 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from pymongo import MongoClient
-from urllib.parse import quote_plus
-from bson.objectid import ObjectId
+import mysql.connector
+from mysql.connector import Error
 import base64
 
 app = Flask(__name__)
-
-# Configurar CORS para permitir requisições do Live Server
 CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}})
 
-# Configuração da Conexão com o MongoDB
-username = quote_plus("api_rest")
-password = quote_plus("Zi20z1lu8NkZS9Qw")
-cluster_url = "cluster0.kqv60.mongodb.net"
-database_name = "class_gaming"
+# Configurações do banco de dados
+db_config = {
+    "host": "mysql-lcndev.alwaysdata.net",
+    "database": "lcndev_classgaming",
+    "user": "lcndev_api",
+    "password": "7kFTc8T6",
+}
 
-client = MongoClient(f"mongodb+srv://{username}:{password}@{cluster_url}/{database_name}?retryWrites=true&w=majority")
-db = client[database_name]
-quizzes_collection = db["quizzes"]
-combinations_collection = db["combinations"]
-windwords_collection = db["windwords"]  # Nova coleção para Palavras ao Vento
+# Função para conectar ao banco de dados
+def connect_to_db():
+    try:
+        connection = mysql.connector.connect(**db_config)
+        return connection
+    except Error as e:
+        print(f"Erro ao conectar ao banco de dados: {e}")
+        return None
 
 # Endpoint para adicionar um novo quiz
 @app.route('/add_quiz', methods=['POST'])
 def add_quiz():
+    data = request.json
+    connection = connect_to_db()
+    if not connection:
+        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
+
     try:
-        quiz_data = request.json
-        result = quizzes_collection.insert_one(quiz_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
+        cursor = connection.cursor()
+        query = "INSERT INTO tb_quizzes (nome, descricao, nivel) VALUES (%s, %s, %s)"
+        cursor.execute(query, (data["nome"], data["descricao"], data["nivel"]))
+        connection.commit()
+        return jsonify({"status": "success", "id": cursor.lastrowid})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
+    finally:
+        cursor.close()
+        connection.close()
 
-# Endpoint para adicionar um novo quiz de combinação
+# Endpoint para adicionar uma nova combinação
 @app.route('/add_combination', methods=['POST'])
 def add_combination():
+    data = request.json
+    connection = connect_to_db()
+    if not connection:
+        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
+
     try:
-        combination_data = request.json
-        result = combinations_collection.insert_one(combination_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
+        cursor = connection.cursor()
+
+        # Insere a imagem como Base64
+        query_image = "INSERT INTO tb_imagens (url, descricao, nivel) VALUES (%s, %s, %s)"
+        image_base64 = data["imagem_base64"]
+        cursor.execute(query_image, (image_base64, data["descricao_imagem"], data["nivel"]))
+        image_id = cursor.lastrowid
+
+        # Insere o texto
+        query_text = "INSERT INTO tb_textos (texto, nivel) VALUES (%s, %s)"
+        cursor.execute(query_text, (data["texto"], data["nivel"]))
+        text_id = cursor.lastrowid
+
+        # Cria a combinação
+        query_combination = "INSERT INTO tb_combinacao (id_imagem, id_texto, nivel) VALUES (%s, %s, %s)"
+        cursor.execute(query_combination, (image_id, text_id, data["nivel"]))
+        connection.commit()
+
+        return jsonify({"status": "success", "id": cursor.lastrowid})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
-
-# Endpoint para adicionar Palavras ao Vento
-@app.route('/add_windwords', methods=['POST'])
-def add_windwords():
-    try:
-        windwords_data = request.json
-        result = windwords_collection.insert_one(windwords_data)
-        return jsonify({"status": "success", "id": str(result.inserted_id)})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Endpoint para buscar todos os quizzes
-@app.route('/get_quizzes', methods=['GET'])
-def get_quizzes():
-    quizzes = list(quizzes_collection.find())
-    for quiz in quizzes:
-        quiz["_id"] = str(quiz["_id"])
-    return jsonify(quizzes), 200
+    finally:
+        cursor.close()
+        connection.close()
 
 # Endpoint para buscar todas as combinações
 @app.route('/get_combinations', methods=['GET'])
 def get_combinations():
-    combinations = list(combinations_collection.find())
-    for combination in combinations:
-        combination["_id"] = str(combination["_id"])
-    return jsonify(combinations), 200
+    connection = connect_to_db()
+    if not connection:
+        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
 
-# Endpoint para buscar todas as Palavras ao Vento
-@app.route('/get_windwords', methods=['GET'])
-def get_windwords():
-    windwords = list(windwords_collection.find())
-    for item in windwords:
-        item["_id"] = str(item["_id"])
-    return jsonify(windwords), 200
-
-# Endpoint para atualizar um quiz
-@app.route('/update_quiz/<quiz_id>', methods=['PUT'])
-def update_quiz(quiz_id):
     try:
-        updated_data = request.json
-        result = quizzes_collection.update_one({"_id": ObjectId(quiz_id)}, {"$set": updated_data})
-        if result.modified_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Quiz not found or data unchanged"}), 404
+        cursor = connection.cursor(dictionary=True)
+        query = """
+            SELECT c.id_combinacao, i.url AS imagem_base64, t.texto, c.nivel
+            FROM tb_combinacao c
+            JOIN tb_imagens i ON c.id_imagem = i.id_imagem
+            JOIN tb_textos t ON c.id_texto = t.id_texto
+        """
+        cursor.execute(query)
+        combinations = cursor.fetchall()
+        return jsonify({"status": "success", "combinations": combinations})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
-
-# Endpoint para deletar um quiz
-@app.route('/delete_quiz/<quiz_id>', methods=['DELETE'])
-def delete_quiz(quiz_id):
-    try:
-        result = quizzes_collection.delete_one({"_id": ObjectId(quiz_id)})
-        if result.deleted_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Quiz not found"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+    finally:
+        cursor.close()
+        connection.close()
 
 # Endpoint para deletar uma combinação
 @app.route('/delete_combination/<combination_id>', methods=['DELETE'])
 def delete_combination(combination_id):
-    try:
-        result = combinations_collection.delete_one({"_id": ObjectId(combination_id)})
-        if result.deleted_count > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Combination not found"}), 404
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+    connection = connect_to_db()
+    if not connection:
+        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
 
-# Endpoint para deletar Palavras ao Vento
-@app.route('/delete_windwords/<windwords_id>', methods=['DELETE'])
-def delete_windwords(windwords_id):
     try:
-        result = windwords_collection.delete_one({"_id": ObjectId(windwords_id)})
-        if result.deleted_count > 0:
+        cursor = connection.cursor()
+        query = "DELETE FROM tb_combinacao WHERE id_combinacao = %s"
+        cursor.execute(query, (combination_id,))
+        connection.commit()
+
+        if cursor.rowcount > 0:
             return jsonify({"status": "success"}), 200
         else:
-            return jsonify({"status": "failure", "message": "Windwords not found"}), 404
+            return jsonify({"status": "failure", "message": "Combinação não encontrada"}), 404
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
+    finally:
+        cursor.close()
+        connection.close()
 
 # Executa a API
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5052)

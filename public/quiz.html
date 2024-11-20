@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Gaming - Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/header-footer.css">
+
+</head>
+<body>
+    <main>
+        <!-- Tela inicial antes de começar o quiz -->
+        <div class="start-screen" id="start-screen">
+            <h1>Bem-vindo ao Quiz</h1>
+            <p>Teste seus conhecimentos e veja sua pontuação no final.</p>
+            <button id="start-quiz">Começar</button>
+        </div>
+
+        <!-- Tela principal do quiz -->
+        <div class="quiz-container" id="quiz-container" style="display: none;">
+            <div class="title" id="quiz-title">Perguntas do Quiz</div>
+            <div id="question" class="question"></div>
+            <div id="options" class="options"></div>
+            <div class="controls">
+                <button class="previous" id="previous-button" style="display: none;">Anterior</button>
+                <button class="next" id="next-button" style="display: none;">Próxima</button>
+                <button class="finish" id="finish-button" style="display: none;">Finalizar</button>
+            </div>
+        </div>
+
+        <!-- Tela de resultado -->
+        <div class="result" id="result-screen" style="display: none;">
+            <h1 id="final-score">Sua pontuação: </h1>
+            <button id="restart-quiz">Reiniciar Quiz</button>
+        </div>
+    </main>
+    <script src="src/js/quiz.js"></script>
+    <script src="src/js/header-footer.js"></script>
+</body>
+</html>

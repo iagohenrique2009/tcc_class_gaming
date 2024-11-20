@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     comboImage: imageBase64
                 };
 
-                fetch('http://localhost:5000/add_combination', {
+                fetch('http://localhost:5052/add_combination', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
