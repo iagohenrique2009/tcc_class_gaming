@@ -6,7 +6,7 @@ from flask_mysqldb import MySQL
 app = Flask(__name__)
 
 # Configuração do CORS para permitir requisições do Live Server
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500"}})
+CORS(app, resources={r"/*": {"origins": "http://lcndev.com.br"}})
 
 # Configuração do MySQL
 app.config['MYSQL_HOST'] = 'localhost'  # ou o endereço do servidor de banco de dados

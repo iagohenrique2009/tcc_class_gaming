@@ -20,7 +20,7 @@ const result = document.querySelector('.result');
 async function fetchQuestions() {
     try {
         // Certifique-se de que o endpoint está correto
-        const response = await fetch('http://127.0.0.1:5000/api/quiz/2');
+        const response = await fetch('http://lcndev.com.br:5000/api/quiz/2');
         questions = await response.json();
         totalQuestions = questions.length;
         
