@@ -1,0 +1,209 @@
+/* Estilo global */
+body {
+    background-image: url('../imagens/fundo.png') ;
+    font-family: 'Orbitron', sans-serif;
+    background-color: #1a1a1a;
+    color: #f1f1f1;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Organiza o layout verticalmente */
+}
+
+/* Header e Footer */
+header, footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    z-index: 1000; /* Mantém o header e footer acima de outros elementos */
+}
+
+header {
+    top: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+footer {
+    bottom: 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Links do header e footer */
+header a, footer a {
+    color: #e12f31;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+header a:hover, footer a:hover {
+    color: #e12f31;
+}
+
+/* Espaçamento para compensar o header e footer */
+main {
+    margin-top: 80px; /* Altura do header */
+    margin-bottom: 80px; /* Altura do footer */
+    flex-grow: 1; /* Permite que o conteúdo principal ocupe o restante do espaço */
+    padding: 20px;
+}
+
+/* Container principal */
+.container {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Cabeçalhos */
+h1, h2 {
+    text-align: center;
+    color: #e12f31;
+}
+
+/* Formulários e inputs */
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Estilo das opções */
+.options {
+    margin-top: 10px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.option-item label {
+    width: 20px;
+    margin-right: 10px;
+    color: #e12f31;
+}
+
+.correct-label {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+/* Botões */
+button {
+    background-color: #e12f31;
+    color: #fff;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e12f31;
+}
+
+.add-option {
+    background-color: #4caf50;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.add-option:hover {
+    background-color: #388e3c;
+}
+
+/* Layout da navegação vertical para as abas */
+.content-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.tab-navigation-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.tab-button {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.tab-button:hover,
+.tab-button.active {
+    background-color: #555;
+}
+
+/* Conteúdo das abas */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Dificuldades */
+.difficulty {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Imagens */
+#comboImage {
+    padding: 5px;
+}
+
+#previewImage {
+    display: none;
+    margin-top: 10px;
+    width: 200px; /* Largura fixa */
+    height: 200px; /* Altura fixa */
+    object-fit: contain; /* Ajusta a imagem para caber dentro do espaço, sem cortar */
+    border-radius: 8px;
+    background-color: #333; /* Cor de fundo para áreas vazias */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .tab-button {
+        padding: 8px 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}

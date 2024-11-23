@@ -1,0 +1,117 @@
+/* Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background-image: url('../imagens/fundo.png') ;
+    background-color: #1c1c1c;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos do Header */
+
+
+/* Estilos do Main */
+main {
+    padding: 40px;
+    text-align: center;
+    margin: 80px auto;
+    max-width: 1000px;
+}
+
+main h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #e12f31;
+}
+
+/* Contêiner do jogo */
+.game-container {
+    width: 1000px;
+    min-height: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid #e12f31;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: #e12f31;
+}
+
+/* Contêiner das colunas */
+.columns-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 100px; 
+    
+}
+
+/* Coluna de imagens */
+.image-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Coluna de dropzones */
+.dropzone-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo das imagens arrastáveis */
+.draggable {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    cursor: grab;
+    border: 2px solid #e12f31;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Estilo das dropzones */
+.dropzone {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #e12f31;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s, border-style 0.3s;
+}
+
+/* Estilo para o texto da dropzone */
+.dropzone-text {
+    color: #e12f31;
+    text-align: center;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilo ao arrastar sobre a dropzone */
+.dropzone.hovered {
+    background-color: #444;
+    border-style: solid;
+}
