@@ -1,7 +1,7 @@
-// Função para verificar se o usuário está na página de login
-function isLoginPage() {
-    return window.location.pathname.includes("login.html");
-}
+// // Função para verificar se o usuário está na página de login
+// function isLoginPage() {
+//     return window.location.pathname.includes("login.html");
+// }
 
 // Função para inserir o cabeçalho
 function loadHeader(loggedUser = null) {
@@ -13,9 +13,11 @@ function loadHeader(loggedUser = null) {
         navHTML = `
             <nav>
                 <ul>
-                    <li><a href="levels.html">Início</a></li>
-                    <li><a href="game-list.html">Níveis</a></li>
+                    <li><a href="login.html">Início</a></li>
+                    <li><a href="levels.html">Níveis</a></li>
                     <li><a href="game-list.html">Jogos</a></li>
+                    <li><a href="performance.html">Desempenho</a></li>
+                    <li><a href="about.html">Sobre</a></li>
                     <li><a href="contact.html">Contato</a></li>
                 </ul>
             </nav>
