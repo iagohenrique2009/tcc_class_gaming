@@ -1,32 +1,133 @@
-const items = [
-    { imagePath: 'https://via.placeholder.com/100', dropzoneText: 'Solte aqui 1' },
-    { imagePath: 'https://via.placeholder.com/100', dropzoneText: 'Solte aqui 2' },
-    { imagePath: 'https://via.placeholder.com/100', dropzoneText: 'Solte aqui 3' },
-    { imagePath: 'https://via.placeholder.com/100', dropzoneText: 'Solte aqui 4' },
-    { imagePath: 'https://via.placeholder.com/100', dropzoneText: 'Solte aqui 5' },
-];
+document.addEventListener('DOMContentLoaded', async () => {
+    const level = localStorage.getItem('selectedLevel');
+    const gameContainer = document.querySelector('.game-container'); // Usando o game-container como container principal
 
+    if (!gameContainer) {
+        console.error("Elemento '.game-container' não encontrado.");
+        return;
+    }
+
+    if (!level) {
+        console.error('Nenhum nível selecionado.');
+        return;
+    }
+
+    // Cria o elemento de carregamento
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.classList.add('loading-indicator');
+    loadingIndicator.innerHTML = `<div class="spinner"></div>`;
+    document.body.appendChild(loadingIndicator); // Adiciona o indicador ao corpo do documento
+
+    try {
+        // Chamada para buscar combinações
+        const response = await fetch(`http://127.0.0.1:5051/api/combinations?level=${level}`);
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+            const combinations = data.combinations;
+
+            if (combinations.length === 0) {
+                console.error('Nenhuma combinação retornada.');
+                return;
+            }
+
+            // Configura os itens diretamente a partir do JSON retornado, incluindo um ID único
+            const items = combinations.map((combination, index) => ({
+                id: combination.id_combinacao,
+                imagePath: `data:image/jpeg;base64,${combination.image_url}`, 
+                dropzoneText: combination.dropzone_text || `Solte aqui ${index + 1}`,
+            }));
+
+            // Chama a função para criar a capa e iniciar o jogo
+            createGameCover(gameContainer, items);
+        } else {
+            console.error('Erro na API:', data.message);
+        }
+    } catch (error) {
+        console.error('Erro ao buscar combinações:', error.message);
+    } finally {
+        // Remove o indicador de carregamento após o carregamento dos dados
+        loadingIndicator.remove();
+    }
+});
+
+// Cria a capa com o botão "Play"
+function createGameCover(container, items) {
+    // Adiciona a capa ao container
+    const cover = document.createElement('div');
+    cover.classList.add('game-cover');
+    cover.innerHTML = `
+        <div class="cover-content">
+            <button class="play-button">Play</button>
+        </div>
+    `;
+    container.appendChild(cover);
+
+    // Adiciona evento ao botão "Play"
+    const playButton = cover.querySelector('.play-button');
+    playButton.addEventListener('click', () => {
+        cover.remove(); // Remove a capa
+        startGame(container, items); // Inicia o jogo
+    });
+}
+
+// Variável global para rastrear o número de combinações corretas
+let correctMatches = 0;
+
+// Inicia o jogo com contador
+function startGame(container, items) {
+    let time = 0;
+
+    // Cria o contador
+    const timer = document.createElement('div');
+    timer.classList.add('game-timer');
+    timer.textContent = `Tempo: ${time}s`;
+    container.prepend(timer);
+
+    // Atualiza o contador a cada segundo
+    const interval = setInterval(() => {
+        time += 1;
+        timer.textContent = `Tempo: ${time}s`;
+    }, 1000);
+
+    // Configura o Drag-and-Drop
+    createDragAndDrop(items);
+
+    // Salva o intervalo para poder parar depois
+    container.dataset.intervalId = interval;
+}
+
+// Função para criar drag-and-drop
 function createDragAndDrop(items) {
     const imageColumn = document.querySelector('.image-column');
     const dropzoneColumn = document.querySelector('.dropzone-column');
-    const gameContainer = document.querySelector('.game-container');
 
-    if (!imageColumn || !dropzoneColumn || !gameContainer) {
-        console.error("Elementos '.image-column', '.dropzone-column' ou '.game-container' não encontrados!");
+    if (!imageColumn || !dropzoneColumn) {
+        console.error("Elementos '.image-column' ou '.dropzone-column' não encontrados!");
         return;
     }
 
     imageColumn.innerHTML = ''; // Limpa o conteúdo anterior
     dropzoneColumn.innerHTML = ''; // Limpa o conteúdo anterior
 
-    items.forEach((item, index) => {
+    // Embaralha as imagens para que não estejam na mesma ordem das dropzones
+    const shuffledItems = items.slice().sort(() => Math.random() - 0.5);
+
+    shuffledItems.forEach((item, index) => {
         // Criação da imagem arrastável
         const draggable = document.createElement('img');
-        draggable.src = item.imagePath;
+        draggable.src = item.imagePath; // Base64 direto do JSON
         draggable.alt = `Imagem ${index + 1} para arrastar`;
-        draggable.id = `draggable-${index + 1}`;
+        draggable.id = `draggable-${item.id}`; // Usando o ID único
         draggable.classList.add('draggable');
         draggable.draggable = true;
+
+        // Armazena o ID único como um atributo data
+        draggable.dataset.id = item.id;
 
         // Evento de início do arraste
         draggable.addEventListener('dragstart', (event) => {
@@ -45,12 +146,15 @@ function createDragAndDrop(items) {
         imageColumn.appendChild(draggable);
     });
 
-    // Criação das dropzones
     items.forEach((item, index) => {
+        // Criação das dropzones
         const dropzone = document.createElement('div');
         dropzone.classList.add('dropzone');
-        dropzone.id = `dropzone-${index + 1}`;
+        dropzone.id = `dropzone-${item.id}`; // Usando o ID único
         dropzone.innerHTML = `<span class="dropzone-text">${item.dropzoneText}</span>`;
+
+        // Armazena o ID único como um atributo data
+        dropzone.dataset.id = item.id;
 
         // Adiciona eventos à dropzone
         addDropzoneEvents(dropzone);
@@ -59,127 +163,102 @@ function createDragAndDrop(items) {
 
     // Ajusta a altura da game-container após a renderização
     adjustGameContainerHeight();
-
-    // Permite arrastar para qualquer lugar da área do jogo
-    gameContainer.addEventListener('dragover', (event) => {
-        event.preventDefault();
-    });
-
-    gameContainer.addEventListener('drop', (event) => {
-        event.preventDefault();
-        const draggedElementId = event.dataTransfer.getData('text');
-        const draggedElement = document.getElementById(draggedElementId);
-
-        const containerRect = gameContainer.getBoundingClientRect();
-        const dropX = event.clientX - containerRect.left;
-        const dropY = event.clientY - containerRect.top;
-
-        // Remove a imagem da dropzone, se estiver em uma
-        if (draggedElement.parentElement.classList.contains('dropzone')) {
-            const previousDropzone = draggedElement.parentElement;
-            previousDropzone.removeChild(draggedElement);
-        }
-
-        // Garante que a imagem permaneça dentro dos limites da game-container
-        const maxX = gameContainer.clientWidth - draggedElement.offsetWidth;
-        const maxY = gameContainer.clientHeight - draggedElement.offsetHeight;
-
-        const posX = Math.max(0, Math.min(dropX - draggedElement.offsetWidth / 2, maxX));
-        const posY = Math.max(0, Math.min(dropY - draggedElement.offsetHeight / 2, maxY));
-
-        // Restaura o tamanho original da imagem ao sair de uma dropzone
-        draggedElement.style.width = '100px'; // Tamanho original fora das dropzones
-        draggedElement.style.height = '100px';
-
-        // Posiciona a imagem dentro da game-container
-        draggedElement.style.position = 'absolute';
-        draggedElement.style.left = `${posX}px`;
-        draggedElement.style.top = `${posY}px`;
-
-        gameContainer.appendChild(draggedElement);
-    });
 }
 
 function addDropzoneEvents(dropzone) {
-    // Evento de arrastar sobre a dropzone
     dropzone.addEventListener('dragover', (event) => {
         event.preventDefault();
         dropzone.classList.add('hovered');
     });
 
-    // Evento de sair da dropzone
     dropzone.addEventListener('dragleave', () => {
         dropzone.classList.remove('hovered');
     });
 
-    // Evento de soltar na dropzone
     dropzone.addEventListener('drop', (event) => {
         event.preventDefault();
         dropzone.classList.remove('hovered');
 
         const draggedElementId = event.dataTransfer.getData('text');
         const draggedElement = document.getElementById(draggedElementId);
-        const currentElementInDropzone = dropzone.querySelector('img');
+        if (!draggedElement) return;
 
-        // Se já houver uma imagem, troque de posição
-        if (currentElementInDropzone) {
-            dropzone.appendChild(draggedElement);
-
-            // Centraliza e ajusta o tamanho da imagem na dropzone
-            draggedElement.style.position = 'absolute';
-            draggedElement.style.left = '50%';
-            draggedElement.style.top = '50%';
-            draggedElement.style.transform = 'translate(-50%, -50%)';
-            draggedElement.style.width = '120px'; // Mesmo tamanho da dropzone
-            draggedElement.style.height = '120px'; // Mesmo tamanho da dropzone
-
-            // Posiciona a imagem removida fora da dropzone, mas dentro da game-container
-            const gameContainer = document.querySelector('.game-container');
-            const containerRect = gameContainer.getBoundingClientRect();
-            const dropzoneRect = dropzone.getBoundingClientRect();
-
-            const newX = dropzoneRect.right - containerRect.left + 10;
-            const newY = dropzoneRect.top - containerRect.top;
-
-            // Garante que a imagem removida permaneça dentro dos limites da game-container
-            const maxX = gameContainer.clientWidth - currentElementInDropzone.offsetWidth;
-            const maxY = gameContainer.clientHeight - currentElementInDropzone.offsetHeight;
-
-            const finalX = Math.max(0, Math.min(newX, maxX));
-            const finalY = Math.max(0, Math.min(newY, maxY));
-
-            currentElementInDropzone.style.position = 'absolute';
-            currentElementInDropzone.style.left = `${finalX}px`;
-            currentElementInDropzone.style.top = `${finalY}px`;
-            currentElementInDropzone.style.width = '100px'; // Volta ao tamanho original fora das dropzones
-            currentElementInDropzone.style.height = '100px';
-            gameContainer.appendChild(currentElementInDropzone);
+        // Verifica se a imagem corresponde à dropzone
+        if (draggedElement.dataset.id === dropzone.dataset.id) {
+            // Se ainda não havia uma imagem correta nesta dropzone
+            if (!dropzone.classList.contains('correct')) {
+                correctMatches += 1;
+            }
+            dropzone.classList.add('correct');
         } else {
-            // Adiciona o elemento arrastado à dropzone e ajusta o tamanho
-            dropzone.appendChild(draggedElement);
-            draggedElement.style.position = 'absolute';
-            draggedElement.style.left = '50%';
-            draggedElement.style.top = '50%';
-            draggedElement.style.transform = 'translate(-50%, -50%)';
-            draggedElement.style.width = '120px'; // Mesmo tamanho da dropzone
-            draggedElement.style.height = '120px'; // Mesmo tamanho da dropzone
+            // Se havia uma imagem correta e agora está incorreta
+            if (dropzone.classList.contains('correct')) {
+                correctMatches -= 1;
+            }
+            dropzone.classList.remove('correct');
         }
+
+        // Remove a imagem anterior, se houver
+        const previousImage = dropzone.querySelector('img');
+        if (previousImage) {
+            previousImage.style.position = 'initial';
+            previousImage.style.transform = 'none';
+            previousImage.style.width = '100px';
+            previousImage.style.height = '100px';
+            document.querySelector('.image-column').appendChild(previousImage);
+        }
+
+        dropzone.appendChild(draggedElement);
+
+        draggedElement.style.position = 'absolute';
+        draggedElement.style.left = '50%';
+        draggedElement.style.top = '50%';
+        draggedElement.style.transform = 'translate(-50%, -50%)';
+        draggedElement.style.width = '120px';
+        draggedElement.style.height = '120px';
+
+        checkGameCompletion(); // Verifica se o jogo foi concluído
     });
 }
 
-// Ajusta a altura da game-container com base na altura da coluna de dropzones
 function adjustGameContainerHeight() {
     const dropzoneColumn = document.querySelector('.dropzone-column');
     const gameContainer = document.querySelector('.game-container');
 
     if (dropzoneColumn && gameContainer) {
         const dropzoneColumnHeight = dropzoneColumn.scrollHeight;
-        const newHeight = dropzoneColumnHeight * 1.3; // Aumenta a altura da game-container em 30% para dar mais espaço
-        gameContainer.style.height = `${newHeight}px`;
+        gameContainer.style.height = `${dropzoneColumnHeight * 1.3}px`;
     }
 }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    createDragAndDrop(items);
-});
+// Função para verificar se o jogo foi concluído
+function checkGameCompletion() {
+    const totalItems = document.querySelectorAll('.dropzone').length;
+
+    if (correctMatches === totalItems) {
+        // Todas as combinações estão corretas
+        showFinishButton();
+    }
+}
+
+// Função para exibir o botão "Terminar"
+function showFinishButton() {
+    const gameContainer = document.querySelector('.game-container');
+
+    // Verifica se o botão já existe
+    if (!document.querySelector('.finish-button')) {
+        const finishButton = document.createElement('button');
+        finishButton.classList.add('finish-button');
+        finishButton.textContent = 'Terminar';
+        gameContainer.appendChild(finishButton);
+
+        finishButton.addEventListener('click', () => {
+            // Lógica para quando o jogo termina
+            alert('Parabéns! Você completou o jogo.');
+
+            // Para o contador
+            const intervalId = gameContainer.dataset.intervalId;
+            clearInterval(intervalId);
+        });
+    }
+}

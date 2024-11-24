@@ -24,6 +24,8 @@
             <!-- Formulário para adicionar Quiz -->
             <div id="quiz-form" class="tab-content active">
                 <form id="quizForm">
+
+
                     <h2>Adicionar Novo Quiz</h2>
                     <label for="title">Título do Quiz:</label>
                     <input type="text" id="title" name="title" required>
@@ -31,16 +33,11 @@
                     <label for="description">Descrição do Quiz:</label>
                     <textarea id="description" name="description" required></textarea>
 
-                    <label>Nível:</label>
-                    <div class="difficulty">
-                        <label><input type="checkbox" class="difficulty-level" value="1"> 1</label>
-                        <label><input type="checkbox" class="difficulty-level" value="2"> 2</label>
-                        <label><input type="checkbox" class="difficulty-level" value="3"> 3</label>
-                        <label><input type="checkbox" class="difficulty-level" value="4"> 4</label>
-                        <label><input type="checkbox" class="difficulty-level" value="5"> 5</label>
-                        <label><input type="checkbox" class="difficulty-level" value="6"> 6</label>
-                    </div>
-
+                    <label for="quizDropdown">Selecione um Quiz:</label>
+                    <select id="quizDropdown" name="quizDropdown" required>
+                        <option value="">Carregando quizzes...</option>
+                    </select>
+                    
                     <div id="questionsContainer">
                         <h2>Pergunta</h2>
                         <div class="question-block">
@@ -94,32 +91,33 @@
             </div>
 
             <!-- Formulário para adicionar Palavras ao Vento -->
-            <div id="windwords-form" class="tab-content">
-                <form id="windwordsForm">
-                    <h2>Adicionar Palavras ao Vento</h2>
-                    <label for="windwordsTitle">Título:</label>
-                    <input type="text" id="windwordsTitle" name="windwordsTitle" required>
+<!-- Formulário para adicionar Palavras ao Vento -->
+<div id="windwords-form" class="tab-content">
+    <form id="windwordsForm">
+        <h2>Adicionar Palavras ao Vento</h2>
+        <label for="windwordsTitle">Título:</label>
+        <input type="text" id="windwordsTitle" name="windwordsTitle" required>
 
-                    <label for="windwordsText">Texto:</label>
-                    <textarea id="windwordsText" name="windwordsText" required></textarea>
+        <label for="windwordsText">Texto:</label>
+        <textarea id="windwordsText" name="windwordsText" required></textarea>
 
-                    <label for="correctWords">Palavras Corretas (separadas por vírgula):</label>
-                    <input type="text" id="correctWords" name="correctWords" readonly>
+        <label for="correctWords">Palavras Corretas (separadas por vírgula):</label>
+        <input type="text" id="correctWords" name="correctWords" readonly>
 
-                    <label>Dificuldade:</label>
-                    <div class="difficulty">
-                        <label><input type="checkbox" class="difficulty-level" value="1"> 1</label>
-                        <label><input type="checkbox" class="difficulty-level" value="2"> 2</label>
-                        <label><input type="checkbox" class="difficulty-level" value="3"> 3</label>
-                        <label><input type="checkbox" class="difficulty-level" value="4"> 4</label>
-                        <label><input type="checkbox" class="difficulty-level" value="5"> 5</label>
-                        <label><input type="checkbox" class="difficulty-level" value="6"> 6</label>
-                    </div>
-
-                    <button type="button" id="addWindwordsButton">Adicionar Palavras ao Vento</button>
-                </form>
-            </div>
+        <label>Dificuldade:</label>
+        <div class="difficulty">
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-1" value="1"> 1</label>
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-2" value="2"> 2</label>
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-3" value="3"> 3</label>
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-4" value="4"> 4</label>
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-5" value="5"> 5</label>
+            <label><input type="checkbox" class="difficulty-level" id="windwords-difficulty-6" value="6"> 6</label>
         </div>
+
+        <button type="button" id="addWindwordsButton">Adicionar Palavras ao Vento</button>
+    </form>
+</div>
+
     </div>
 
     <script src="src/js/add-db.js"></script>

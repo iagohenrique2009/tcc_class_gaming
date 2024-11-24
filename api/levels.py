@@ -4,7 +4,6 @@ from mysql.connector import Error
 from flask import session
 
 app = Flask(__name__)
-app.SECRET_KEY = "sua_chave_secreta_muito_segura" # Necessário para gerenciar sessões em Flask
 
 # Configurações do banco de dados
 db_config = {
@@ -16,20 +15,17 @@ db_config = {
 
 @app.route('/atualizar-nivel', methods=['POST'])
 def atualizar_nivel():
-    # Receber o nível do corpo da requisição
+
     data = request.get_json()
     nivel = data.get('nivel')
-    user_id = session.get('user_id')  # Assumindo que o usuário está autenticado e seu ID está na sessão
-
+    user_id = session.get('user_id')  
     if not nivel or not user_id:
         return jsonify({'message': 'Dados inválidos'}), 400
 
     try:
-        # Conectar ao banco de dados
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
 
-        # Atualizar o nível do usuário
         sql = "UPDATE tb_usuarios SET nivel = %s WHERE id = %s"
         cursor.execute(sql, (nivel, user_id))
         connection.commit()
@@ -45,4 +41,4 @@ def atualizar_nivel():
             connection.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5052)
