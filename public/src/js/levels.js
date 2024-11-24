@@ -18,12 +18,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 console.log('Dados recebidos:', data);
 
-                if (data.sucesso && data.activities.length > 0) {
-                    localStorage.setItem('selectedLevel', levelNumber);
-                    localStorage.setItem('activities', JSON.stringify(data.activities));
+                if (data.sucesso) {
+                    // Combina todas as atividades em um único array
+                    let activities = [];
 
-                    // Redireciona para a página de atividades
-                    window.location.href = 'game-list.html';
+                    if (data.quizzes && data.quizzes.length > 0) {
+                        const quizzesWithType = data.quizzes.map(quiz => ({ ...quiz, tipo: 'quiz' }));
+                        activities = activities.concat(quizzesWithType);
+                    }
+
+                    if (data.combinations && data.combinations.length > 0) {
+                        const combinationsWithType = data.combinations.map(combination => ({ ...combination, tipo: 'combination' }));
+                        activities = activities.concat(combinationsWithType);
+                    }
+
+                    if (data.windwords && data.windwords.length > 0) {
+                        const windwordsWithType = data.windwords.map(windword => ({ ...windword, tipo: 'windword' }));
+                        activities = activities.concat(windwordsWithType);
+                    }
+
+                    if (activities.length > 0) {
+                        localStorage.setItem('selectedLevel', levelNumber);
+                        localStorage.setItem('activities', JSON.stringify(activities));
+
+                        // Redireciona para a página de atividades
+                        window.location.href = 'game-list.html';
+                    } else {
+                        alert('Nenhuma atividade encontrada para este nível.');
+                    }
                 } else {
                     alert(data.mensagem || 'Nenhuma atividade encontrada para este nível.');
                 }

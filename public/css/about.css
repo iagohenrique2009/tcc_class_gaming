@@ -37,7 +37,6 @@ nav a {
 }
 
 main {
-    background-image: url('../imagens/telaInicial.png'); 
     background-size:contain; 
     background-position: center; 
     background-repeat: no-repeat; 
@@ -50,11 +49,14 @@ main {
 
 .login-container {
     text-align: center;
+    padding: 0px 150px 150px 150px;
     color: #d0d0d0;
     box-shadow: #e12f31;
 }
 
 .login-box {
+    width: 800px;
+    height: 650px;
     background-color: #000;
     padding: 30px;
     border-radius: 10px;
@@ -62,21 +64,6 @@ main {
     display: inline-block;
 }
 
-.login-box form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.login-box label {
-    margin: 10px 0 5px;
-}
-
-.login-box input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-}
 
 .login-box button {
     background-color: #e12f31;
@@ -90,19 +77,10 @@ main {
     transition: background-color 0.3s;
 }
 
-.login-box button:hover {
-    background-color: #e12f31;
-}
-
-.login-box p {
-    margin-top: 20px;
-    font-size: 14px;
-}
-
 .login-box p a {
-    margin-top: 20px;
-    font-size: 14px;
     color: #e12f31;
+    padding: 10px 20px;
+    font-size: 16px;
 }
 
 h1{

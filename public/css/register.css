@@ -1,3 +1,4 @@
+/* Seu CSS fornecido */
 * {
     margin: 0;
     padding: 0;
@@ -20,7 +21,7 @@ header {
 }
 
 .logo {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     color: #fff;
 }
@@ -37,21 +38,19 @@ nav a {
 }
 
 main {
-    background-image: url('../imagens/telaInicial.png'); 
-    background-size:contain; 
+    background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
     display: flex;
-    height: 840px;
     justify-content: center;
     align-items: center;
+    height: 80vh;
     text-align: center;
 }
 
 .login-container {
     text-align: center;
     color: #d0d0d0;
-    box-shadow: #e12f31;
 }
 
 .login-box {
@@ -72,7 +71,7 @@ main {
     margin: 10px 0 5px;
 }
 
-.login-box input {
+.login-box input, .login-box select {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -91,7 +90,7 @@ main {
 }
 
 .login-box button:hover {
-    background-color: #e12f31;
+    background-color: #c62828;
 }
 
 .login-box p {
@@ -102,13 +101,7 @@ main {
 .login-box p a {
     margin-top: 20px;
     font-size: 14px;
-    color: #e12f31;
-}
-
-h1{
-    padding: 0px 0px 70px 0px;
-    font-size: 200%;
-    box-shadow: #000;
+    color: #c62828;
 }
 
 footer {

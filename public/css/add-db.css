@@ -1,6 +1,7 @@
 /* Estilo global */
 body {
-    font-family: Arial, sans-serif;
+    background-image: url('../imagens/fundo.png') ;
+    font-family: 'Orbitron', sans-serif;
     background-color: #1a1a1a;
     color: #f1f1f1;
     margin: 0;
@@ -31,14 +32,14 @@ footer {
 
 /* Links do header e footer */
 header a, footer a {
-    color: #e91e63;
+    color: #e12f31;
     text-decoration: none;
     margin: 0 10px;
     transition: color 0.3s;
 }
 
 header a:hover, footer a:hover {
-    color: #f06292;
+    color: #e12f31;
 }
 
 /* Espaçamento para compensar o header e footer */
@@ -63,7 +64,7 @@ main {
 /* Cabeçalhos */
 h1, h2 {
     text-align: center;
-    color: #e91e63;
+    color: #e12f31;
 }
 
 /* Formulários e inputs */
@@ -95,7 +96,7 @@ input, textarea, button {
 .option-item label {
     width: 20px;
     margin-right: 10px;
-    color: #e91e63;
+    color: #e12f31;
 }
 
 .correct-label {
@@ -106,7 +107,7 @@ input, textarea, button {
 
 /* Botões */
 button {
-    background-color: #e91e63;
+    background-color: #e12f31;
     color: #fff;
     margin-top: 20px;
     cursor: pointer;
@@ -116,7 +117,7 @@ button {
 }
 
 button:hover {
-    background-color: #d81b60;
+    background-color: #e12f31;
 }
 
 .add-option {

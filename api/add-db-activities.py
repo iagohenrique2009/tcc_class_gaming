@@ -26,7 +26,7 @@ def connect_to_db():
 
 # Endpoint para adicionar um novo quiz
 @app.route('/add_quiz', methods=['POST'])
-def add_quiz():
+def add_pergunta():
     data = request.json
     connection = connect_to_db()
     if not connection:
@@ -34,20 +34,69 @@ def add_quiz():
 
     try:
         cursor = connection.cursor()
-        query = "INSERT INTO tb_quizzes (nome, descricao, nivel) VALUES (%s, %s, %s)"
-        cursor.execute(query, (data["nome"], data["descricao"], data["nivel"]))
+
+        # Validar os dados fornecidos
+        id_quiz = data.get("id_quiz")
+        pergunta = data.get("pergunta", {})
+        enunciado = pergunta.get("enunciado")
+        alternativas = pergunta.get("alternativas", [])
+
+        if not id_quiz or not enunciado or not alternativas:
+            return jsonify({"status": "error", "message": "Os campos 'id_quiz', 'enunciado' e 'alternativas' são obrigatórios"}), 400
+
+        # Verificar se o Quiz existe
+        query_validate_quiz = "SELECT id_quiz FROM tb_quizzes WHERE id_quiz = %s"
+        cursor.execute(query_validate_quiz, (id_quiz,))
+        if cursor.fetchone() is None:
+            return jsonify({"status": "error", "message": "O id_quiz fornecido não existe"}), 404
+
+        # Inserir pergunta
+        query_pergunta = "INSERT INTO tb_perguntas (id_quiz, enunciado) VALUES (%s, %s)"
+        cursor.execute(query_pergunta, (id_quiz, enunciado))
+        id_pergunta = cursor.lastrowid
+
+        # Inserir alternativas
+        query_alternativa = "INSERT INTO tb_alternativas (id_pergunta, texto, correta) VALUES (%s, %s, %s)"
+        for alternativa in alternativas:
+            cursor.execute(query_alternativa, (id_pergunta, alternativa["texto"], alternativa["correta"]))
+
         connection.commit()
-        return jsonify({"status": "success", "id": cursor.lastrowid})
+        return jsonify({"status": "success", "id_pergunta": id_pergunta}), 201
+
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
     finally:
         cursor.close()
         connection.close()
 
+
+
+@app.route('/get_quizzes', methods=['GET'])
+def get_quizzes():
+    connection = connect_to_db()
+    if not connection:
+        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        query = "SELECT id_quiz, nome, nivel FROM tb_quizzes"
+        cursor.execute(query)
+        quizzes = cursor.fetchall()
+        return jsonify({"status": "success", "quizzes": quizzes}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+    finally:
+        cursor.close()
+        connection.close()
+
+
 # Endpoint para adicionar uma nova combinação
 @app.route('/add_combination', methods=['POST'])
 def add_combination():
     data = request.json
+    if not data or 'imagem_base64' not in data:
+        return jsonify({"status": "error", "message": "'imagem_base64' é obrigatório"}), 400
+
     connection = connect_to_db()
     if not connection:
         return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
@@ -62,7 +111,7 @@ def add_combination():
         image_id = cursor.lastrowid
 
         # Insere o texto
-        query_text = "INSERT INTO tb_textos (texto, nivel) VALUES (%s, %s)"
+        query_text = "INSERT INTO tb_texto_combinacao (texto, nivel) VALUES (%s, %s)"
         cursor.execute(query_text, (data["texto"], data["nivel"]))
         text_id = cursor.lastrowid
 
@@ -78,52 +127,63 @@ def add_combination():
         cursor.close()
         connection.close()
 
-# Endpoint para buscar todas as combinações
-@app.route('/get_combinations', methods=['GET'])
-def get_combinations():
-    connection = connect_to_db()
-    if not connection:
-        return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
+@app.route('/add_windwords', methods=['POST'])
+def add_windwords():
+    data = request.json
+    print('Dados recebidos:', data)
 
-    try:
-        cursor = connection.cursor(dictionary=True)
-        query = """
-            SELECT c.id_combinacao, i.url AS imagem_base64, t.texto, c.nivel
-            FROM tb_combinacao c
-            JOIN tb_imagens i ON c.id_imagem = i.id_imagem
-            JOIN tb_textos t ON c.id_texto = t.id_texto
-        """
-        cursor.execute(query)
-        combinations = cursor.fetchall()
-        return jsonify({"status": "success", "combinations": combinations})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-    finally:
-        cursor.close()
-        connection.close()
+    if not data:
+        return jsonify({"status": "error", "message": "Dados ausentes na requisição"}), 400
 
-# Endpoint para deletar uma combinação
-@app.route('/delete_combination/<combination_id>', methods=['DELETE'])
-def delete_combination(combination_id):
+    required_fields = ["title", "text", "originalText", "correctWords", "difficulty"]
+    missing_fields = [field for field in required_fields if field not in data]
+
+    if missing_fields:
+        return jsonify({"status": "error", "message": f"Campos ausentes: {', '.join(missing_fields)}"}), 400
+
     connection = connect_to_db()
     if not connection:
         return jsonify({"status": "error", "message": "Erro ao conectar ao banco de dados"}), 500
 
     try:
         cursor = connection.cursor()
-        query = "DELETE FROM tb_combinacao WHERE id_combinacao = %s"
-        cursor.execute(query, (combination_id,))
+
+        # Inserir os dados principais na tabela tb_palavras_ao_vento
+        query_main = """
+            INSERT INTO tb_palavras_ao_vento (titulo, nivel)
+            VALUES (%s, %s)
+        """
+        cursor.execute(query_main, (data["title"], data["difficulty"]))
+        id_palavras_ao_vento = cursor.lastrowid
+
+        # Inserir o texto principal na tabela tb_palavras_ao_vento_texto
+        query_text = """
+            INSERT INTO tb_palavras_ao_vento_texto (id_palavras_ao_vento, texto, texto_correto)
+            VALUES (%s, %s, %s)
+        """
+        cursor.execute(query_text, (id_palavras_ao_vento, data["text"], data["originalText"]))
+
+        # Inserir palavras corretas na tabela tb_palavras_ao_vento_corretas
+        query_correct_words = """
+            INSERT INTO tb_palavras_ao_vento_corretas (id_palavras_ao_vento, corretas)
+            VALUES (%s, %s)
+        """
+        correct_words = ",".join(data["correctWords"])  # Lista de palavras corretas formatada como string
+        cursor.execute(query_correct_words, (id_palavras_ao_vento, correct_words))
+
         connection.commit()
 
-        if cursor.rowcount > 0:
-            return jsonify({"status": "success"}), 200
-        else:
-            return jsonify({"status": "failure", "message": "Combinação não encontrada"}), 404
+        return jsonify({"status": "success", "id": id_palavras_ao_vento}), 201
     except Exception as e:
+        print('Erro ao inserir dados no banco de dados:', e)
         return jsonify({"status": "error", "message": str(e)}), 400
     finally:
         cursor.close()
         connection.close()
+
+
+
+
 
 # Executa a API
 if __name__ == "__main__":
