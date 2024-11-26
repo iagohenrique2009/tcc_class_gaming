@@ -259,6 +259,9 @@ function showFinishButton() {
             // Para o contador
             const intervalId = gameContainer.dataset.intervalId;
             clearInterval(intervalId);
+
+            // Redireciona para a página inicial de jogos
+            window.location.href = 'game-list.html';
         });
     }
 }

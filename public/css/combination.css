@@ -190,3 +190,14 @@ main h1 {
     z-index: 1000;
 }
 
+.finish-button {
+    background-color: #e12f31;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+

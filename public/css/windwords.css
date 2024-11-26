@@ -17,12 +17,18 @@ body {
     position: relative; /* Importante para o overlay posicionar corretamente */
     width: 80%;
     max-width: 800px;
+    height: auto;
     margin: 50px auto 0 auto;
     background-color: #2c2c2c;
     padding: 20px;
     border-radius: 10px;
     color: #fff;
     text-align: center;
+}
+
+.activity-container p{
+    line-height:  40px;
+    text-align: justify;
 }
 
 /* Estilos do overlay */
