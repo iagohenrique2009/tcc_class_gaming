@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    quizDropdown.innerHTML = '<option value="">Selecione um Quiz</option>';
+                    quizDropdown.innerHTML = '<option value="">Selecione um Tema</option>';
                     data.quizzes.forEach(quiz => {
                         const option = document.createElement('option');
                         option.value = quiz.id_quiz;
@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (level.checked) difficulty = level.value;
             });
 
-
             if (!comboImage) {
                 alert("Por favor, adicione uma imagem.");
                 return;
@@ -205,7 +204,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     body: JSON.stringify(combinationData),
                 })
                 .then(response => response.json())
-                .then(data => alert(data.status === "success" ? "Combinação adicionada com sucesso!" : `Erro: ${data.message}`))
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("Combinação adicionada com sucesso!");
+                        // Limpa os campos
+                        document.getElementById("comboName").value = "";
+                        document.getElementById("comboImage").value = "";
+                        document.getElementById("word").value = "";
+                        document.querySelectorAll(".difficulty-level").forEach(level => level.checked = false);
+                    } else {
+                        alert(`Erro: ${data.message}`);
+                    }
+                })
                 .catch(error => console.error("Erro ao conectar com a API:", error));
             };
             reader.readAsDataURL(comboImage);

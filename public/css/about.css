@@ -48,6 +48,7 @@ main {
 }
 
 .login-container {
+    line-height: 20px;
     text-align: center;
     padding: 0px 150px 150px 150px;
     color: #d0d0d0;

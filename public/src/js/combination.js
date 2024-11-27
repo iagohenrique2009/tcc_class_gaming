@@ -25,23 +25,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             const errorMessage = await response.text();
             throw new Error(errorMessage);
         }
-
+    
         const data = await response.json();
         if (data.success) {
-            const combinations = data.combinations;
-
+            let combinations = data.combinations;
+    
             if (combinations.length === 0) {
                 console.error('Nenhuma combinação retornada.');
                 return;
             }
-
+    
+            // Sorteia 6 combinações aleatórias
+            combinations = combinations.sort(() => Math.random() - 0.5).slice(0, 6);
+    
             // Configura os itens diretamente a partir do JSON retornado, incluindo um ID único
             const items = combinations.map((combination, index) => ({
                 id: combination.id_combinacao,
                 imagePath: `data:image/jpeg;base64,${combination.image_url}`, 
                 dropzoneText: combination.dropzone_text || `Solte aqui ${index + 1}`,
             }));
-
+    
             // Chama a função para criar a capa e iniciar o jogo
             createGameCover(gameContainer, items);
         } else {

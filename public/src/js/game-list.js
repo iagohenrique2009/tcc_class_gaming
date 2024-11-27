@@ -1,10 +1,34 @@
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // Precisa incluir no localStorage alem de selectLevel o tipo do usuário 
+    //localStorage.setItem('tipo', '3');// Define o usuário como administrador (1) para teste
+
     const activitiesContainer = document.getElementById('activities-container');
     const level = localStorage.getItem('selectedLevel');
+    const tipo = localStorage.getItem('tipo');
 
     if (!activitiesContainer) {
         console.error("Elemento 'activities-container' não encontrado.");
         return;
+    }
+
+    //adiciona bot~]ao de edição caso usuários sejam = 1 ou 2
+    if(tipo === '1' || tipo === '2') {
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edição';
+        editButton.style.position = 'absolute';
+        editButton.style.top = '10px';
+        editButton.style.right = '10px';
+        editButton.style.padding = '10px 20px';
+        editButton.style.backgroundColor = '#e12f31';
+        editButton.style.color = 'white';
+        editButton.style.border = 'none';
+        editButton.style.borderRadius = '5px';
+        editButton.style.cursor = 'pointer';
+        editButton.onclick = () => {
+            window.location.href = 'add-db.html';
+        };
+        document.body.appendChild(editButton);
     }
 
     if (!level) {
