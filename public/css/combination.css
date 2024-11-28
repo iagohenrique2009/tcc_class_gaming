@@ -191,6 +191,7 @@ main h1 {
 }
 
 .finish-button {
+    text-align: center;
     background-color: #e12f31;
     border: none;
     color: #fff;
