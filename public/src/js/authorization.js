@@ -51,9 +51,6 @@ if (cadastroForm) {
     });
 }
 
-// Seleciona o formulário de login
-// Lida com o formulário de login
-// Lida com o formulário de login
 const loginFormElement = document.getElementById('loginForm');
 if (loginFormElement) {
     loginFormElement.addEventListener('submit', function(event) {
