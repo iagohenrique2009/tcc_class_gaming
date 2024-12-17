@@ -85,10 +85,22 @@ if (loginFormElement) {
             return response.json();
         })
         .then(data => {
-            alert('Login realizado com sucesso!');
-            console.log('Token JWT recebido:', data.token);
-            localStorage.setItem('token', data.token); // Armazena o token no localStorage
-            window.location.href = 'levels.html';
+            if (data.sucesso) {
+                alert('Login realizado com sucesso!');
+                console.log('Token JWT recebido:', data.token);
+                
+                // Salva o token no localStorage
+                localStorage.setItem('token', data.token);
+    
+                // Verifica o tipo de usuário e redireciona
+                if (data.tipo === 2) {
+                    window.location.href = 'professor.html'; // Redireciona para a página do professor
+                } else {
+                    window.location.href = 'levels.html'; // Redireciona para a página padrão
+                }
+            } else {
+                alert('Erro ao fazer login: ' + data.mensagem);
+            }
         })
         .catch(error => {
             console.error('Erro:', error);

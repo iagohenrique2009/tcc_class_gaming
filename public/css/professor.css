@@ -1,0 +1,149 @@
+/* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Fundo preto */
+    color: #fff; /* Texto branco */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabeçalho */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000; /* Fundo preto */
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff; /* Texto branco */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff; /* Texto branco */
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #e91e63; /* Mantém o hover rosa choque para links */
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000; /* Fundo preto */
+    color: #fff; /* Texto branco */
+    width: 100%;
+    position: relative;
+}
+
+/* Conteúdo principal */
+main {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Botões de ação */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    background-color: #e12f31;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #bf2628;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Contêiner responsivo da tabela */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto; /* Permite rolagem horizontal em telas menores */
+    margin-top: 20px;
+}
+
+/* Tabela de desempenho */
+#performanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e1e1e; /* Fundo escuro */
+    color: #fff; /* Texto branco */
+}
+
+#performanceTable th, #performanceTable td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+}
+
+#performanceTable th {
+    background-color: #e12f31;
+    color: #fff;
+}
+
+/* Media queries para telas menores */
+@media (max-width: 768px) {
+    nav a {
+        font-size: 14px;
+    }
+    #performanceTable th, #performanceTable td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 24px;
+    }
+    nav a {
+        font-size: 12px;
+    }
+    .action-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    #performanceTable th, #performanceTable td {
+        padding: 6px;
+        font-size: 12px;
+    }
+}

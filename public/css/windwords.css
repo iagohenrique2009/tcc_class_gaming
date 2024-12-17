@@ -1,4 +1,4 @@
-/* Estilos Globais */ 
+/* Estilos Globais */
 * {
     margin: 0;
     padding: 0;
@@ -10,83 +10,37 @@ body {
     background-image: url('../imagens/fundo.png');
     background-color: #1c1c1c;
     color: #fff;
+    line-height: 1.5;
+    min-height: 100vh;
+    font-size: 24px; /* Mantém a fonte base grande em qualquer tela */
 }
 
 /* Container da atividade */
 .activity-container {
-    position: relative; /* Importante para o overlay posicionar corretamente */
-    width: 80%;
-    max-width: 800px;
-    margin: 50px auto 0 auto;
-    background-color: #2c2c2c;
-    padding: 20px;
-    border-radius: 10px;
-    color: #fff;
-    text-align: center;
-}
-
-/* Estilos do overlay */
-.game-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    background: rgba(28, 28, 28, 0.9); /* Fundo semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; 
-}
-
-.cover-content {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #2c2c2c;
+    padding: 2rem;
+    border-radius: 10px;
     text-align: center;
+    overflow: hidden;
+    font-size: 1.2rem; /* Aproximadamente 28.8px, letras grandes */
 }
 
-.play-button {
-    display: none; /* Oculta o botão "Play" inicialmente */
-    background: #e12f31;
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.play-button:hover {
-    background: #bf2628;
-}
-
-.spinner {
-    display: block; /* Exibe o spinner inicialmente */
-    width: 50px;
-    height: 50px;
-    border: 5px solid #ccc;
-    border-top: 5px solid #e12f31;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Estilos para os dropdowns */
+/* Dropdown */
 .word-dropdown {
-    margin: 0 5px;
-    padding: 5px;
-    font-size: 16px;
+    margin: 0.5rem;
+    padding: 0.8rem; 
+    font-size: 1.2rem; /* ~28.8px, não reduzimos em telas menores */
     background-color: #1c1c1c;
     color: #fff;
-    border: 1px solid #e12f31;
+    border: 2px solid #e12f31;
     border-radius: 5px;
+    min-width: 10rem; /* Largura mínima maior para caber texto grande */
 }
 
-/* Estilos para indicações de resposta */
 .correct {
     border: 2px solid green !important;
 }
@@ -96,14 +50,16 @@ body {
 }
 
 #timer {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 1.5rem; /* ~36px, permanece grande */
+    margin-bottom: 2rem;
     color: #e12f31;
+    font-weight: bold;
 }
 
 .feedback {
-    margin-top: 20px;
-    font-size: 18px;
+    margin-top: 2rem;
+    font-size: 1.3rem; /* ~31.2px, grande e legível */
+    font-weight: 600;
 }
 
 .feedback.correct {
@@ -114,18 +70,186 @@ body {
     color: red;
 }
 
-
 .check-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
+    margin-top: 2.5rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem; /* ~31.2px */
     cursor: pointer;
     background-color: #e12f31;
     color: #fff;
     border: none;
     border-radius: 5px;
+    transition: background 0.3s;
 }
 
 .check-button:hover {
     background-color: #bf2628;
+}
+
+/* Capa do jogo */
+.game-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(28, 28, 28, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.cover-content {
+    text-align: center;
+}
+
+.play-button {
+    display: none;
+    background: #e12f31;
+    color: #fff;
+    border: none;
+    padding: 1.5rem 3rem;
+    font-size: 1.5rem; /* ~36px */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 2rem;
+}
+
+.play-button:hover {
+    background: #bf2628;
+}
+
+/* Spinner de carregamento */
+.spinner {
+    display: block;
+    width: 4rem; /* ~96px */
+    height: 4rem; /* ~96px */
+    border: 0.4rem solid #ccc;
+    border-top: 0.4rem solid #e12f31;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Overlay de finalização */
+.finalization-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 2rem;
+}
+
+.finalization-overlay div {
+    background: white; 
+    padding: 2rem; 
+    border-radius: 10px; 
+    text-align: center; 
+    color: #333; 
+    max-width: 400px; 
+    width: 100%;
+    font-size: 1.2rem; /* ~28.8px, também grande no overlay */
+    line-height: 1.4;
+}
+
+.finalization-overlay h2 {
+    font-size: 1.4rem; /* ~33.6px */
+    margin-bottom: 1.5rem;
+}
+
+.finalization-overlay p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem; /* ~28.8px */
+}
+
+.finalization-overlay button {
+    margin: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem; /* ~28.8px */
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.finalization-overlay button#restart-activity {
+    background: #dc3545;
+}
+
+/* Media Queries */
+/* Mantemos fontes grandes mesmo em telas pequenas */
+@media (max-width: 600px) {
+    .activity-container {
+        margin: 20px auto;
+        padding: 1.5rem;
+        font-size: 1.2rem; /* Mantém o tamanho da fonte */
+    }
+
+    .word-dropdown {
+        font-size: 1.1rem; /* ~26.4px ainda grande */
+        padding: 0.8rem;
+        min-width: 8rem; 
+    }
+
+    #timer {
+        font-size: 1.4rem; /* ~33.6px, ainda grande */
+        margin-bottom: 1.5rem;
+    }
+
+    .feedback {
+        font-size: 1.2rem; /* ~28.8px */
+        margin-top: 1.5rem;
+    }
+
+    .check-button {
+        font-size: 1.2rem; /* ~28.8px */
+        padding: 1rem 2rem;
+        margin-top: 2rem;
+    }
+
+    .play-button {
+        font-size: 1.4rem; /* ~33.6px */
+        padding: 1.2rem 2.5rem;
+    }
+
+    .spinner {
+        width: 3.5rem;
+        height: 3.5rem;
+        border: 0.4rem solid #ccc;
+        border-top: 0.4rem solid #e12f31;
+        margin-bottom: 1.5rem;
+    }
+
+    .finalization-overlay div {
+        font-size: 1.2rem; 
+        padding: 1.5rem;
+    }
+
+    .finalization-overlay h2 {
+        font-size: 1.3rem; /* ~31.2px */
+    }
+
+    .finalization-overlay p {
+        font-size: 1.2rem;
+    }
+
+    .finalization-overlay button {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
 }

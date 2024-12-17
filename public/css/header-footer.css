@@ -1,3 +1,4 @@
+/* Reset e configurações básicas */
 * {
     margin: 0;
     padding: 0;
@@ -5,42 +6,150 @@
     font-family: 'Orbitron', sans-serif;
 }
 
+/* Estilo do corpo */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilo do cabeçalho */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px 20px;
     background-color: #000;
     color: #fff;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #000;
-    color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    position: relative;
+    flex-wrap: wrap; /* Quebra linha se necessário */
 }
 
 .logo {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     color: #fff;
+    white-space: nowrap;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 15px;
 }
 
 nav a {
     text-decoration: none;
     color: #fff;
+    font-size: 14px;
+    transition: color 0.3s ease;
 }
 
 nav a:hover {
     color: #e91e63;
 }
+
+/* Menu responsivo */
+.nav-toggle {
+    display: none; /* Oculto em telas grandes */
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    margin-top: auto;
+}
+
+/* Media Queries Responsivas */
+
+/* Telas menores que 768px */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .nav-toggle {
+        display: block; /* Botão de menu visível */
+    }
+
+    .nav-links {
+        display: none; /* Ocultar links inicialmente */
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .nav-links.active {
+        display: flex; /* Mostrar links quando ativo */
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+}
+
+/* Telas menores que 480px */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 16px;
+    }
+
+    nav a {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    footer {
+        font-size: 10px;
+        padding: 5px;
+    }
+}
+
+/* Estilo base para os botões */
+.app-button {
+    display: inline-block;
+    background-color: rgb(225, 47, 49); /* Cor de destaque */
+    color: #fff; /* Cor do texto */
+    text-decoration: none;
+    padding: 8px 15px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 14px; /* Tamanho da fonte */
+    text-align: center;
+    transition: background 0.3s ease; /* Efeito de transição */
+    border: none;
+    cursor: pointer;
+}
+
+.app-button:hover {
+    background-color: #c2185b; /* Cor mais escura ao passar o mouse */
+}
+
+/* Específico para o botão de logout */
+#logoutButton {
+    width: 100%; /* Ocupa toda a largura do dropdown */
+    text-align: center;
+}
+

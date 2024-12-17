@@ -27,7 +27,7 @@ def run_script(script_name):
         print(f"Erro ao executar {script_name}: {e}")
 
 # Lista de scripts a serem executados
-scripts = ["api/game-list.py", "api/authorization.py", "api/add-db-activities.py", "api/game.py"]
+scripts = ["api/game-list.py", "api/authorization.py", "api/add-db-activities.py", "api/game.py","api/performance.py"]
 
 if __name__ == "__main__":
     processes = []
@@ -48,3 +48,5 @@ if __name__ == "__main__":
         p.join()
 
     print("Todos os scripts foram executados.")
+
+

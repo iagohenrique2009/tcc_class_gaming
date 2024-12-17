@@ -16,139 +16,85 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Seleciona os elementos do spinner e do botão "Play"
     const spinner = document.querySelector('.spinner');
     const playButton = document.querySelector('.play-button');
-    console.log('Elemento spinner:', spinner);
-    console.log('Elemento playButton:', playButton);
 
-    // Exibe o spinner inicialmente e oculta o botão "Play"
-    if (spinner) {
-        spinner.style.display = 'block';
-        console.log('Spinner exibido');
-    } else {
-        console.error('Elemento spinner não encontrado');
-    }
-
-    if (playButton) {
-        playButton.style.display = 'none';
-        console.log('Botão Play oculto');
-    } else {
-        console.error('Elemento playButton não encontrado');
-    }
+    if (spinner) spinner.style.display = 'block';
+    if (playButton) playButton.style.display = 'none';
 
     try {
-        console.log('Iniciando fetch para a API...');
         const response = await fetch(`http://127.0.0.1:5051/api/windwords?level=${level}`);
-        console.log('Resposta da API recebida:', response);
-
         if (!response.ok) {
             const errorMessage = await response.text();
             throw new Error(errorMessage);
         }
 
         const data = await response.json();
-        console.log('Dados recebidos da API:', data);
-
         if (data.success) {
             const activities = data.activities;
-            console.log('Atividades recebidas:', activities);
 
             if (!activities || activities.length === 0) {
-                console.error('Nenhuma atividade retornada.');
                 if (spinner) spinner.style.display = 'none';
                 alert('Nenhuma atividade disponível para este nível.');
                 return;
             }
 
-            // Processa os dados das atividades
             createWindWordsActivities(activities);
-            console.log('Atividades processadas');
 
-            // Oculta o spinner e exibe o botão "Play"
-            if (spinner) {
-                spinner.style.display = 'none';
-                console.log('Spinner ocultado');
-            }
-            if (playButton) {
-                playButton.style.display = 'block';
-                console.log('Botão Play exibido');
-            }
+            if (spinner) spinner.style.display = 'none';
+            if (playButton) playButton.style.display = 'block';
 
-            // Adiciona evento ao botão "Play"
             playButton.addEventListener('click', () => {
                 const gameCover = document.querySelector('.game-cover');
-                if (gameCover) {
-                    gameCover.style.display = 'none';
-                    console.log('Overlay ocultado');
-                }
+                if (gameCover) gameCover.style.display = 'none';
                 startTimer(300); // Inicia o timer
-                console.log('Timer iniciado');
             }, { once: true });
         } else {
-            console.error('Erro na API:', data.message);
             if (spinner) spinner.style.display = 'none';
             alert('Erro ao carregar atividades: ' + data.message);
         }
     } catch (error) {
-        console.error('Erro ao buscar as atividades:', error.message);
         if (spinner) spinner.style.display = 'none';
         alert('Erro ao buscar as atividades: ' + error.message);
     }
 });
 
-let totalCorrectWords = []; // Torna global para acesso em endActivity
-let textDataArray = [];     // Torna global para acesso em endActivity
-let interval; // Variável global para o timer
+let totalCorrectWords = [];
+let textDataArray = [];
+let interval;
 
 function createWindWordsActivities(activities) {
     const activityContainer = document.querySelector('.activity-container');
-    if (!activityContainer) {
-        console.error('Elemento .activity-container não encontrado.');
-        return;
-    }
+    if (!activityContainer) return;
 
     let wordIndex = 0;
 
     activities.forEach((activity) => {
-        if (!activity.texts || activity.texts.length === 0) {
-            console.error('Nenhum texto encontrado para a atividade:', activity);
-            return;
-        }
+        if (!activity.texts || activity.texts.length === 0) return;
 
         activity.texts.forEach((textObj) => {
             const text = textObj.texto;
             const correctWords = textObj.correct_words;
             const textoCorreto = textObj.texto_correto;
 
-            if (!correctWords || correctWords.length === 0) {
-                console.error('Nenhuma palavra correta encontrada para o texto:', textObj);
-                return;
-            }
+            if (!correctWords || correctWords.length === 0) return;
+            if (!textoCorreto) return;
 
-            if (!textoCorreto) {
-                console.error('Texto correto não encontrado para o texto:', textObj);
-                return;
-            }
-
-            // Armazena o índice inicial e final das palavras deste texto
             const startIndex = wordIndex;
             const endIndex = wordIndex + correctWords.length - 1;
 
             totalCorrectWords = totalCorrectWords.concat(correctWords);
 
-            // Processa o texto e gera o HTML com dropdowns
             const processed = processText(text, correctWords, wordIndex, totalCorrectWords);
 
             const paragraph = document.createElement('p');
             paragraph.innerHTML = processed.html;
             activityContainer.appendChild(paragraph);
 
-            // Salva os dados deste texto
             textDataArray.push({
-                startIndex: startIndex,
-                endIndex: endIndex,
-                textoCorreto: textoCorreto,
+                startIndex,
+                endIndex,
+                textoCorreto,
                 parts: processed.parts,
                 dropdownIndices: processed.dropdownIndices,
             });
@@ -157,12 +103,8 @@ function createWindWordsActivities(activities) {
         });
     });
 
-    if (textDataArray.length === 0) {
-        console.error('Nenhum texto correto encontrado nas atividades.');
-        return;
-    }
+    if (textDataArray.length === 0) return;
 
-    // Botão "Verificar Respostas"
     const checkButton = document.createElement('button');
     checkButton.textContent = 'Verificar Respostas';
     checkButton.classList.add('check-button');
@@ -174,27 +116,24 @@ function createWindWordsActivities(activities) {
 }
 
 function processText(text, correctWords, wordStartIndex, totalCorrectWords) {
-    // Divide o texto nos espaços em branco '__'
     const parts = text.split('__');
-
     let result = '';
     let dropdownIndices = [];
+
     for (let i = 0; i < parts.length; i++) {
         result += parts[i];
         if (i < parts.length - 1) {
-            // Insere um dropdown
             const dataIndex = wordStartIndex + i;
             const selectHTML = createDropdown(correctWords[i], dataIndex, totalCorrectWords);
             result += selectHTML;
             dropdownIndices.push(dataIndex);
         }
     }
-    return { html: result, parts: parts, dropdownIndices: dropdownIndices };
+    return { html: result, parts, dropdownIndices };
 }
 
 function createDropdown(correctWord, dataIndex, totalCorrectWords) {
-    // Usamos todas as palavras corretas como opções
-    const options = [...new Set(totalCorrectWords)]; // Remove duplicatas, se houver
+    const options = [...new Set(totalCorrectWords)];
     const shuffledOptions = options.sort(() => Math.random() - 0.5);
 
     let selectHTML = `<select data-index="${dataIndex}" class="word-dropdown">`;
@@ -213,17 +152,13 @@ function checkAnswers(totalCorrectWords, textDataArray) {
     let totalAnswers = dropdowns.length;
 
     textDataArray.forEach((textData) => {
-        const { parts, dropdownIndices } = textData;
+        const { dropdownIndices } = textData;
 
-        for (let i = 0; i < dropdownIndices.length; i++) {
-            const dataIndex = dropdownIndices[i];
+        dropdownIndices.forEach((dataIndex) => {
             const dropdown = document.querySelector(`.word-dropdown[data-index="${dataIndex}"]`);
             const selectedValue = dropdown ? dropdown.value : '';
-
-            // Obtém a palavra correta para este índice
             const correctWord = totalCorrectWords[dataIndex];
 
-            // Verifica se a seleção do usuário está correta
             if (selectedValue === correctWord) {
                 dropdown.classList.add('correct');
                 dropdown.classList.remove('incorrect');
@@ -232,77 +167,91 @@ function checkAnswers(totalCorrectWords, textDataArray) {
                 dropdown.classList.add('incorrect');
                 dropdown.classList.remove('correct');
             }
-        }
+        });
     });
 
-    // Exibe uma mensagem de feedback
     const feedback = document.createElement('div');
     feedback.classList.add('feedback');
+
     if (correctAnswerCount === totalAnswers) {
         feedback.textContent = 'Parabéns! Você acertou todas as alternativas.';
         feedback.classList.add('correct');
+        clearInterval(interval);
 
-        // Parar o timer quando todas as respostas estiverem corretas
-        if (interval) {
-            clearInterval(interval);
-            console.log('Timer parado. Todas as respostas corretas.');
-        }
+        const timerElement = document.getElementById('timer');
+        const timer = timerElement ? timerElement.textContent.replace('Tempo decorrido: ', '') : '00:00';
 
-        // Desabilitar todos os dropdowns
-        dropdowns.forEach((dropdown) => {
-            dropdown.disabled = true;
-        });
-
+        showFinalizationOverlay(correctAnswerCount, totalAnswers, timer);
     } else {
         feedback.textContent = `Você acertou ${correctAnswerCount} de ${totalAnswers} alternativas.`;
         feedback.classList.add('incorrect');
     }
 
-    // Remove feedback anterior, se existir
     const existingFeedback = document.querySelector('.feedback');
-    if (existingFeedback) {
-        existingFeedback.remove();
-    }
+    if (existingFeedback) existingFeedback.remove();
 
     document.querySelector('.activity-container').appendChild(feedback);
 }
 
-function endActivity() {
-    // Desabilitar todos os dropdowns
-    const dropdowns = document.querySelectorAll('.word-dropdown');
-    dropdowns.forEach((dropdown) => {
-        dropdown.disabled = true;
+function showFinalizationOverlay(correctAnswersCount, totalAnswers, timer) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('finalization-overlay');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.display = 'flex';
+    overlay.style.flexDirection = 'column';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '9999';
+
+    overlay.innerHTML = `
+        <div>
+            <h2>Atividade Finalizada!</h2>
+            <p>Parabéns! Você acertou todas as alternativas.</p>
+            <p>Tempo decorrido: ${timer}</p>
+            <button id="save-performance">Salvar Desempenho</button>
+            <button id="restart-activity">Reiniciar</button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById('save-performance').addEventListener('click', () => {
+        alert('Desempenho salvo!');
+        location.reload();
     });
 
-    //  Exibir uma mensagem ou enviar automaticamente as respostas
-    checkAnswers(totalCorrectWords, textDataArray);
+    document.getElementById('restart-activity').addEventListener('click', () => {
+        location.reload();
+    });
 }
 
+
 function startTimer(maxDuration) {
-    let timer = 0; // Inicia em zero
+    let timer = 0;
     const timerElement = document.createElement('div');
     timerElement.id = 'timer';
-    timerElement.style.fontSize = '1.5rem';
-    timerElement.style.marginBottom = '20px';
-    timerElement.style.color = '#e12f31';
     document.querySelector('.activity-container').prepend(timerElement);
 
     interval = setInterval(() => {
-        let minutes = parseInt(timer / 60, 10);
-        let seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
+        const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
+        const seconds = String(timer % 60).padStart(2, '0');
 
         timerElement.textContent = `Tempo decorrido: ${minutes}:${seconds}`;
-
-        timer++; // Incrementa o timer
+        timer++;
 
         if (timer >= maxDuration) {
             clearInterval(interval);
             timerElement.textContent += ' (Tempo limite alcançado!)';
-            console.log('Tempo limite alcançado.');
             endActivity();
         }
     }, 1000);
+}
+
+function endActivity() {
+    // Pode exibir um feedback ao usuário, por exemplo, ou bloquear interações
 }

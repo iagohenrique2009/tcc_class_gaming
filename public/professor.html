@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor - Class Gaming</title>
+    <link rel="stylesheet" href="css/professor.css">
+    <link rel="stylesheet" href="css/header-footer.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">Class Gaming - Professor</div>
+        <nav>
+            <ul>
+                <li><a href="professor.html">Início</a></li>
+                <li><a href="performance.html">Desempenho</a></li>
+                <li><a href="professor.html">Professor</a></li>
+                <li><a href="#" id="logoutButton">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main>
+        <h1>Bem-vindo, Professor!</h1>
+        <p>Escolha uma das opções abaixo:</p>
+
+        <div class="action-buttons">
+            <!-- Botão para adicionar dados -->
+            <a href="add-db.html" class="action-button add-data">
+                Adicionar Dados
+            </a>
+
+            <!-- Botão para verificar desempenho -->
+            <button class="action-button view-performance" id="viewPerformanceButton">
+                Verificar Desempenho dos Alunos
+            </button>
+        </div>
+
+        <!-- Tabela para exibir desempenho -->
+        <section id="performanceSection" class="hidden">
+            <h2>Desempenho dos Alunos</h2>
+            <table id="performanceTable">
+                <section id="performanceSection" class="hidden">
+                    <table id="performanceTable">
+                      <thead>
+                        <tr>
+                          <th>Aluno</th>
+                          <th>Atividade</th>
+                          <th>Pontuação</th>
+                          <th>Tempo Gasto</th>
+                          <th>Data de Execução</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </section>
+                <tbody>
+                    <!-- Dados preenchidos dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2023 Class Gaming - All Rights Reserved</p>
+    </footer>
+
+    <script src="src/js/professor.js"></script>
+    <script src="src/js/header-footer.js"></script>
+</body>
+</html>

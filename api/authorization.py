@@ -67,10 +67,12 @@ def login():
                     algorithm="HS256"
                 )
 
+                # Retorna o 'tipo' explicitamente no JSON
                 return jsonify({
                     'sucesso': True,
                     'mensagem': 'Login realizado com sucesso.',
-                    'token': token
+                    'token': token,
+                    'tipo': usuario['tipo']  # Inclui o tipo do usuário
                 }), 200
             else:
                 return jsonify({'sucesso': False, 'mensagem': 'Email ou senha incorretos.'}), 401

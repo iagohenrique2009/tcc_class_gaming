@@ -1,12 +1,10 @@
 /* Estilo global */
 body {
-    background-image: url('../imagens/fundo.png') ;
+    background-image: url('../imagens/fundo.png');
     font-family: 'Orbitron', sans-serif;
     background-color: #1a1a1a;
     color: #f1f1f1;
     margin: 0;
-    display: flex;
-    flex-direction: column; /* Organiza o layout verticalmente */
 }
 
 /* Header e Footer */
@@ -17,7 +15,7 @@ header, footer {
     background-color: #000;
     color: #fff;
     position: fixed;
-    z-index: 1000; /* Mantém o header e footer acima de outros elementos */
+    z-index: 1000;
 }
 
 header {
@@ -44,9 +42,8 @@ header a:hover, footer a:hover {
 
 /* Espaçamento para compensar o header e footer */
 main {
-    margin-top: 80px; /* Altura do header */
-    margin-bottom: 80px; /* Altura do footer */
-    flex-grow: 1; /* Permite que o conteúdo principal ocupe o restante do espaço */
+    margin-top: 120px; /* Espaço para o header */
+    margin-bottom: 120px; /* Espaço para o footer */
     padding: 20px;
 }
 
@@ -117,7 +114,7 @@ button {
 }
 
 button:hover {
-    background-color: #e12f31;
+    background-color: #bf2628;
 }
 
 .add-option {
@@ -186,24 +183,82 @@ button:hover {
 #previewImage {
     display: none;
     margin-top: 10px;
-    width: 200px; /* Largura fixa */
-    height: 200px; /* Altura fixa */
-    object-fit: contain; /* Ajusta a imagem para caber dentro do espaço, sem cortar */
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
     border-radius: 8px;
-    background-color: #333; /* Cor de fundo para áreas vazias */
+    background-color: #333;
 }
 
 /* Ajustes responsivos */
+
+/* Telas menores que 768px */
 @media (max-width: 768px) {
+    main {
+        margin-top: 100px; /* Reduz um pouco a margem, pois em telas pequenas o header/footer geralmente exigem menos espaço */
+        margin-bottom: 100px;
+        padding: 15px;
+    }
+
     .container {
         padding: 15px;
+        max-width: 600px; /* Reduz o max-width para telas menores */
     }
 
     .tab-button {
         padding: 8px 15px;
+        font-size: 14px;
     }
 
     button {
         font-size: 14px;
+        padding: 8px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    h1, h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Telas menores que 480px */
+@media (max-width: 480px) {
+    main {
+        margin-top: 80px; /* Ajusta ainda mais o espaçamento */
+        margin-bottom: 80px;
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        max-width: 100%; /* Ocupa praticamente toda a largura da tela menor */
+    }
+
+    h1, h2 {
+        font-size: 1rem; /* Reduz ligeiramente o tamanho do texto */
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    input, textarea {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .tab-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    #previewImage {
+        width: 150px;
+        height: 150px;
     }
 }

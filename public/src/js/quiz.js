@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let questions = [];
     let currentQuestionIndex = 0;
     let score = 0;
+    let time = 0;
+    let interval;
 
     if (!quizId) {
         startScreen.innerHTML = '<p>Nenhum quiz selecionado.</p>';
@@ -41,9 +43,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderQuestion(index) {
+        if (!questions || !questions[index]) {
+            console.error('Índice inválido ou perguntas não carregadas.');
+            startScreen.innerHTML = '<p>Erro ao carregar pergunta. Por favor, recarregue a página.</p>';
+            return;
+        }
+
         const question = questions[index];
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
+
+        if (!questionElement || !optionsElement) {
+            console.error('Elementos DOM para pergunta ou opções não encontrados.');
+            return;
+        }
 
         questionElement.innerHTML = question.enunciado;
         optionsElement.innerHTML = question.options.map((option, i) => `
@@ -65,16 +78,109 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function showResult() {
-        quizContainer.style.display = 'none';
-        resultScreen.style.display = 'block';
-        resultElement.innerHTML = `Sua pontuação: ${score}`;
+    function showResultOverlay() {
+        clearInterval(interval);
+    
+        const totalQuestions = questions.length;
+        const allCorrect = score === totalQuestions;
+    
+        // Oculta os botões "Anterior", "Próximo" e "Finalizar" do quiz principal
+        if (previousButton) {
+            previousButton.style.display = 'none';
+        }
+        if (nextButton) {
+            nextButton.style.display = 'none';
+        }
+        if (finishButton) {
+            finishButton.style.display = 'none';
+        }
+    
+        // Remove qualquer overlay existente
+        const existingOverlay = document.querySelector('.game-overlay');
+        if (existingOverlay) {
+            existingOverlay.remove();
+        }
+    
+        // Cria o novo overlay
+        const overlay = document.createElement('div');
+        overlay.classList.add('game-overlay');
+        overlay.innerHTML = `
+            <div class="overlay-content">
+                <h2>Quiz Concluído!</h2>
+                <p>Tempo gasto: ${time} segundos</p>
+                <p>Sua pontuação: ${score} de ${totalQuestions} perguntas.</p>
+                <button class="restart-button">Reiniciar</button>
+                ${allCorrect ? '<button class="finish-button-overlay">Finalizar</button>' : ''}
+            </div>
+        `;
+        quizContainer.appendChild(overlay);
+    
+        // Configura o botão "Reiniciar"
+        overlay.querySelector('.restart-button').addEventListener('click', () => {
+            location.reload();
+        });
+    
+        // Configura o botão "Finalizar" do overlay
+        if (allCorrect) {
+            const finishButtonOverlay = overlay.querySelector('.finish-button-overlay');
+            finishButtonOverlay.addEventListener('click', async () => {
+                const userId = 1; // Substitua pelo ID do usuário
+                const atividadeId = quizId;
+    
+                try {
+                    const dados = {
+                        id_usuario: userId,
+                        id_atividade: atividadeId,
+                        pontuacao: score,
+                        tempo_gasto: `${time}`,
+                        data_execucao: new Date().toISOString(),
+                    };
+    
+                    const response = await fetch('http://127.0.0.1:5054/api/desempenho', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dados),
+                    });
+    
+                    if (!response.ok) throw new Error('Erro ao salvar desempenho.');
+    
+                    alert('Desempenho salvo com sucesso!');
+                    location.href = 'levels.html';
+                } catch (error) {
+                    console.error(error);
+                    alert('Erro ao salvar desempenho.');
+                }
+            });
+        }
+    }
+    
+    
+
+    function startTimer() {
+        const timerElement = document.getElementById('timer');
+        time = 0;
+
+        interval = setInterval(() => {
+            time++;
+            if (timerElement) {
+                timerElement.textContent = `Tempo: ${time}s`;
+            }
+        }, 1000);
     }
 
-    startButton.addEventListener('click', () => {
+    startButton.addEventListener('click', async () => {
+        await fetchQuestions();
+        if (questions.length === 0) {
+            console.error('Nenhuma pergunta carregada.');
+            startScreen.innerHTML = '<p>Erro ao carregar perguntas do quiz.</p>';
+            return;
+        }
         startScreen.style.display = 'none';
         quizContainer.style.display = 'block';
         renderQuestion(currentQuestionIndex);
+        startTimer();
     });
 
     nextButton.addEventListener('click', () => {
@@ -90,8 +196,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     finishButton.addEventListener('click', () => {
         calculateScore();
-        showResult();
+        showResultOverlay();
     });
-
-    await fetchQuestions();
 });
